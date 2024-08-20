@@ -2,7 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("frida-il2cpp-bridge");
-const SERVER_ADDRESS = "192.168.3.11";
+const SERVER_ADDRESS = "REPLACE THIS WITH YOUR LOCAL IP";
 while (true) {
     if (Process.findModuleByName("libil2cpp.so")) {
         Il2Cpp.perform(() => {
