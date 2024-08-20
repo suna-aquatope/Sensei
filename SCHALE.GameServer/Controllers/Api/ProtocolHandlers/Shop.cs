@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SCHALE.Common.Database;
 using SCHALE.Common.Database.ModelExtensions;
+using SCHALE.Common.FlatData;
 using SCHALE.Common.NetworkProtocol;
+using SCHALE.Common.Parcel;
 using SCHALE.Common.Utils;
 using SCHALE.GameServer.Services;
 using SCHALE.GameServer.Utils;
+using System.Reflection;
 
 namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 {
@@ -283,6 +287,9 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                                     item => item.StackCount, item => item.StackCount + count));
                         }
 
+                        // Consume currencies
+                        CurrencyUtils.ConsumeGem(ref account, req.Cost.Currency.Gem);
+
                         _context.SaveChanges();
 
                         transaction.Commit();
@@ -311,7 +318,8 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             {
                 GachaResults = gachaList,
                 UpdateTime = DateTime.UtcNow,
-                GemBonusRemain = int.MaxValue,
+                GemBonusRemain = account.Currencies.First().CurrencyDict[CurrencyTypes.GemBonus],
+                GemPaidRemain = account.Currencies.First().CurrencyDict[CurrencyTypes.GemPaid],
                 ConsumedItems = [],
                 AcquiredItems = itemDbList,
                 MissionProgressDBs = [],

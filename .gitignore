@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # EF migration
 efbundle.exe
+/Scripts/redirect_server_frida/env
