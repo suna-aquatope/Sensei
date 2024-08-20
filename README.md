@@ -1,68 +1,51 @@
 # SCHALE.GameServer
 
-### [中文教程](README_zh.md) (by shunner114514)
+## Differences from original repo
 
-## Prerequisites
+### Implemented features
 
-- Some computer knowledge
-- [.NET SDK 8.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0)
-- [SQL Express](https://www.microsoft.com/zh-tw/sql-server/sql-server-downloads)
-- [SQL Server Management Studio (SSMS)](https://learn.microsoft.com/zh-tw/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
-- [LD Player 9](https://www.ldplayer.tw/)
-- [Python](https://www.python.org/)
-- [Frida](https://frida.re/)
-- [frida-server-16.2.5-android-x86_64](https://github.com/frida/frida/releases)
+- Fixed Gacha
 
-## Steps
+![image](https://github.com/user-attachments/assets/30f12db7-5405-4a11-9576-6a71ddb9c54f)
 
-1. Start SQL server
-2. Start private game server
-3. Start LD Player
-4. Start Frida server
-5. Start ブルアカ
-6. Inject Frida script
-7. Enjoy :smile:
+---
 
-### SQL server
+- Week Dungeon
 
-Use SSMS to connect with default settings except that you have to check "Trust server certificate".
+![image](https://github.com/user-attachments/assets/0c773325-00b2-48fb-b24d-b617f40352cd)
 
-### Game server
+![image](https://github.com/user-attachments/assets/abd58db4-276e-4a2b-8096-c96bd8753890)
 
-```bash
-# in this repo
-cd SCHALE.GameServer
-dotnet run
-```
+![image](https://github.com/user-attachments/assets/661aa5a0-1ae7-4d7b-bf81-9a30fd026f93)
 
-### Frida server
+Mostly working, playing stage, unlocking next stage, except for score calculating (you always will be given 3 stars for now)
 
-1. Extract `frida-server-16.2.5-android-x86_64.xz`
-to `LDPlayer/frida-server-16.2.5-android-x86_64`.
-2. Turn on LD Player
-3. Turn on root and adb in the settings of LD Player.
-4.
+---
 
-```bash
-# in LDPlayer
-cd LDPlayer9
-./adb.exe push ../frida-server-16.2.5-android-x86_64 /data/local/tmp/frida-server
-./adb.exe shell
-su
-cd /data/local/tmp
-chmod 755 frida-server
-./frida-server
-```
+- Currencies
 
-### Inject Frida script
+![image](https://github.com/user-attachments/assets/e6340e55-2296-455f-a606-8e5062f67781)
 
-> [!NOTE]  
-> Edit line 5 of [ba.js](./ba.js) to your own server IP.
+This makes it behave the same as the game, e.g., when you pull a gacha, the gems are reduced
 
-> [!WARNING]  
-> Do this fast when you open ブルアカ and see the Yostar logo.
+---
 
-```bash
-# in this repo
-frida -U "ブルアカ" -l ba.js --realm=emulated
-```
+- Currency Command
+
+![image](https://github.com/user-attachments/assets/b9f9d43a-7d0e-40d9-a6a4-8c836b19403a)
+
+![image](https://github.com/user-attachments/assets/6e62d283-6edd-424b-920d-3767549e9ba0)
+
+idk why but changes won't be saved to database
+
+this will be fixed later
+
+but changes are applied until you restart server
+
+---
+
+- Cafe
+
+![image](https://github.com/user-attachments/assets/4f8cf801-79a8-4712-b009-098aa55d9dd9)
+
+As you can see, you can enter cafe, but it is broken
