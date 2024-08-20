@@ -73,7 +73,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             {
                 WeekDungeonStageHistoryDB = db,
                 LevelUpCharacterDBs = new(),
-                ParcelResultDB = ParcelService.GetParcelResult(sessionKeyService, req.SessionKey),
+                ParcelResultDB = ParcelService.GetParcelResult(account),
             };
         }
     }

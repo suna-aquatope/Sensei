@@ -15,9 +15,8 @@ namespace SCHALE.GameServer.Services
             context = _context;
         }
 
-        public static ParcelResultDB GetParcelResult(ISessionKeyService sessionKeyService, SessionKey? sessionKey, long baseExp = 0, long addExp = 0)
+        public static ParcelResultDB GetParcelResult(AccountDB account, long baseExp = 0, long addExp = 0)
         {
-            var account = sessionKeyService.GetAccount(sessionKey);
             return new ParcelResultDB()
             {
                 AccountDB = account,

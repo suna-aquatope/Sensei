@@ -65,17 +65,18 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new MultiFloorRaidEndBattleResponse()
             {
                 MultiFloorRaidDB = db,
-                ParcelResultDB = ParcelService.GetParcelResult(sessionKeyService, req.SessionKey)
+                ParcelResultDB = ParcelService.GetParcelResult(account)
             };
         }
 
         [ProtocolHandler(Protocol.MultiFloorRaid_ReceiveReward)]
         public ResponsePacket RecieveRewardHandler(MultiFloorRaidEndBattleRequest req)
         {
+            var account = sessionKeyService.GetAccount(req.SessionKey);
             return new MultiFloorRaidEndBattleResponse()
             {
                 MultiFloorRaidDB = sessionKeyService.GetAccount(req.SessionKey).MultiFloorRaids.LastOrDefault() ?? new(),
-                ParcelResultDB = ParcelService.GetParcelResult(sessionKeyService, req.SessionKey)
+                ParcelResultDB = ParcelService.GetParcelResult(account)
             };
         }
     }
