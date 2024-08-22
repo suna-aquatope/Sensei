@@ -1,5 +1,13 @@
 # SCHALE.GameServer
 
+## Attention
+
+frida method does not work in the latest version of the game
+
+use the mitmproxy method
+
+usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/master/Scripts/redirect_server_mitmproxy/README.md)
+
 ## Differences from original repo
 
 ### Implemented features
