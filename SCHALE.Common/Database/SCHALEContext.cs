@@ -89,6 +89,11 @@ namespace SCHALE.Common.Database
                 .HasForeignKey(x => x.AccountServerId)
                 .IsRequired();
             modelBuilder.Entity<AccountDB>()
+                .HasMany(x => x.MultiFloorRaids)
+                .WithOne(x => x.Account)
+                .HasForeignKey(x => x.AccountServerId)
+                .IsRequired();
+            modelBuilder.Entity<AccountDB>()
                 .HasMany(x => x.Currencies)
                 .WithOne(x => x.Account)
                 .HasForeignKey(x => x.AccountServerId)

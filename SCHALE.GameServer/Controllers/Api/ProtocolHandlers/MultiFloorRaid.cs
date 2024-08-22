@@ -23,10 +23,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             var raidList = sessionKeyService.GetAccount(req.SessionKey).MultiFloorRaids.ToList();
             return new MultiFloorRaidSyncResponse()
             {
-                MultiFloorRaidDBs = new()
-                {
-                    { new() { SeasonId = (long)req.SeasonId } }
-                },
+                MultiFloorRaidDBs = sessionKeyService.GetAccount(req.SessionKey).MultiFloorRaids.ToList(),
             };
         }
 
@@ -44,23 +41,29 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             MultiFloorRaidDB db = new();
-            if(account.MultiFloorRaids.Any(x => x.ClearedDifficulty == req.Difficulty))
+
+            if (!req.Summary.IsAbort)
             {
-                db = account.MultiFloorRaids.Where(x => x.ClearedDifficulty == req.Difficulty).First();
-            } else
-            {
-                account.MultiFloorRaids.Add(db);
+                if (account.MultiFloorRaids.Any(x => x.ClearedDifficulty == req.Difficulty))
+                {
+                    db = account.MultiFloorRaids.Where(x => x.ClearedDifficulty == req.Difficulty).First();
+                }
+                else
+                {
+                    account.MultiFloorRaids.Add(db);
+                }
+                db.SeasonId = req.SeasonId;
+                db.ClearedDifficulty = req.Difficulty;
+                db.LastClearDate = DateTime.Now;
+                db.RewardDifficulty = req.Difficulty;
+                db.LastRewardDate = DateTime.Now;
+                db.ClearBattleFrame = req.Summary.EndFrame;
+                db.AllCleared = false;
+                db.HasReceivableRewards = false;
+                db.TotalReceivedRewards = new();
+                db.TotalReceivableRewards = new();
+                context.SaveChanges();
             }
-            db.SeasonId = req.SeasonId;
-            db.ClearedDifficulty = req.Difficulty;
-            db.LastClearDate = DateTime.Now;
-            db.RewardDifficulty = req.Difficulty;
-            db.LastRewardDate = DateTime.Now;
-            db.AllCleared = false;
-            db.HasReceivableRewards = false;
-            db.TotalReceivedRewards = new();
-            db.TotalReceivableRewards = new();
-            context.SaveChanges();
 
             return new MultiFloorRaidEndBattleResponse()
             {
