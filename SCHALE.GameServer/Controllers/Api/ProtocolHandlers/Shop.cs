@@ -18,16 +18,18 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         private readonly SCHALEContext _context;
         private readonly SharedDataCacheService _sharedData;
         private readonly ILogger<Shop> _logger;
+        private readonly ExcelTableService _excelTableService;
 
         // TODO: temp storage until gacha management
         public List<long> SavedGachaResults { get; set; } = [];
 
-        public Shop(IProtocolHandlerFactory protocolHandlerFactory, ISessionKeyService sessionKeyService, SCHALEContext context, SharedDataCacheService sharedData, ILogger<Shop> logger) : base(protocolHandlerFactory)
+        public Shop(IProtocolHandlerFactory protocolHandlerFactory, ISessionKeyService sessionKeyService, SCHALEContext context, SharedDataCacheService sharedData, ILogger<Shop> logger, ExcelTableService excelTableService) : base(protocolHandlerFactory)
         {
             _sessionKeyService = sessionKeyService;
             _context = context;
             _sharedData = sharedData;
             _logger = logger;
+            _excelTableService = excelTableService;
         }
 
         [ProtocolHandler(Protocol.Shop_BeforehandGachaGet)]
@@ -106,6 +108,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = _sessionKeyService.GetAccount(req.SessionKey);
             var accountChSet = account.Characters.Select(x => x.UniqueId).ToHashSet();
+            var recruitInfo = _excelTableService.GetTable<ShopRecruitExcelTable>().UnPack().DataList.Where(x => x.Id == req.ShopUniqueId).ToList().First();
 
             // TODO: Implement FES Gacha
             // TODO: Check Gacha currency
@@ -289,6 +292,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
                         // Consume currencies
                         CurrencyUtils.ConsumeGem(ref account, req.Cost.Currency);
+                        _context.Entry(account.Currencies).State = EntityState.Modified;
 
                         _context.SaveChanges();
 
