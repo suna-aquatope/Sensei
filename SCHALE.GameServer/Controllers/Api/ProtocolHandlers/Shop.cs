@@ -292,7 +292,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
                         // Consume currencies
                         CurrencyUtils.ConsumeGem(ref account, req.Cost.Currency);
-                        _context.Entry(account.Currencies).State = EntityState.Modified;
+                        _context.Entry(account.Currencies.First()).State = EntityState.Modified;
 
                         _context.SaveChanges();
 
