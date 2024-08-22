@@ -9,7 +9,7 @@ REWRITE_HOST_LIST = [
     'ba-jp-sdk.bluearchive.jp',
     'prod-gateway.bluearchiveyostar.com',
     'prod-game.bluearchiveyostar.com',
-    # 'prod-notice.bluearchiveyostar.com',
+    'prod-notice.bluearchiveyostar.com',
     # 'prod-logcollector.bluearchiveyostar.com',
 ]
 
