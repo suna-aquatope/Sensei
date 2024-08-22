@@ -288,7 +288,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                         }
 
                         // Consume currencies
-                        CurrencyUtils.ConsumeGem(ref account, req.Cost.Currency.Gem);
+                        CurrencyUtils.ConsumeGem(ref account, req.Cost.Currency);
 
                         _context.SaveChanges();
 

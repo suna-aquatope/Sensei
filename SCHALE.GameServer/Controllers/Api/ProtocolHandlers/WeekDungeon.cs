@@ -70,8 +70,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             }
 
             var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
-            var currencyDict = weekDungeonData.StageEnterCostId.Zip(weekDungeonData.StageEnterCostAmount, (k, v) => new { k, v }).ToDictionary(a => (CurrencyTypes)a.k, a => (long)a.v);
-            CurrencyUtils.ConsumeCurrencies(ref account, currencyDict);
+            CurrencyUtils.ConsumeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount);
             context.SaveChanges();
 
             return new WeekDungeonBattleResultResponse()
