@@ -63,14 +63,15 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 db.StageUniqueId = req.StageUniqueId;
                 // ToDo: Calculate scores
                 db.StarGoalRecord = new() { { StarGoalType.Clear, 1 }, { StarGoalType.GetBoxes, 1 }, { StarGoalType.ClearTimeInSec, 1 }, { StarGoalType.AllAlive, 1 } };
+
+                var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
+                CurrencyUtils.ConsumeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount);
                 context.SaveChanges();
             } else if(account.WeekDungeonStageHistories.Any(x => x.StageUniqueId == req.StageUniqueId))
             {
                 db = account.WeekDungeonStageHistories.First();
             }
 
-            var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
-            CurrencyUtils.ConsumeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount);
             context.SaveChanges();
 
             return new WeekDungeonBattleResultResponse()
