@@ -23,8 +23,10 @@ namespace SCHALE.GameServer.Commands
             long amount = 0;
             if(Enum.TryParse<CurrencyTypes>(id, true, out currencyType) && currencyType != CurrencyTypes.Invalid && Int64.TryParse(amountStr, out amount))
             {
-                connection.Account.Currencies.First().CurrencyDict[currencyType] = amount;
-                connection.Account.Currencies.First().UpdateTimeDict[currencyType] = DateTime.Now;
+                var currencies = connection.Account.Currencies.First();
+                currencies.CurrencyDict[currencyType] = amount;
+                currencies.UpdateTimeDict[currencyType] = DateTime.Now;
+                connection.Context.Entry(currencies).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 connection.Context.SaveChanges();
 
                 connection.SendChatMessage($"Set amount of {currencyType.ToString()} to {amount}!");
