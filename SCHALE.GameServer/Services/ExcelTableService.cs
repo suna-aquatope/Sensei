@@ -47,6 +47,12 @@ namespace SCHALE.GameServer.Services
 
             File.Delete(excelZipPath);
             Log.Information($"Excel Version {Config.Instance.VersionId} downloaded! Notice that versions higher than r67 currently does not work");
+
+#if DEBUG
+            var dumpDir = Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "dumped");
+            Directory.CreateDirectory(dumpDir);
+            TableService.DumpExcels(excelDir, dumpDir);
+#endif
         }
 
         /// <summary>
