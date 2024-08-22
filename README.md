@@ -18,7 +18,7 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ---
 
-- Week Dungeon
+- Week Dungeon (Bounty)
 
 ![image](https://github.com/user-attachments/assets/0c773325-00b2-48fb-b24d-b617f40352cd)
 
@@ -43,12 +43,6 @@ This makes it behave the same as the game, e.g., when you pull a gacha, the gems
 ![image](https://github.com/user-attachments/assets/b9f9d43a-7d0e-40d9-a6a4-8c836b19403a)
 
 ![image](https://github.com/user-attachments/assets/6e62d283-6edd-424b-920d-3767549e9ba0)
-
-idk why but changes won't be saved to database
-
-this will be fixed later
-
-but changes are applied until you restart server
 
 ---
 
