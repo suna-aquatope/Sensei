@@ -365,3 +365,5 @@ FodyWeavers.xsd
 # EF migration
 efbundle.exe
 /Scripts/redirect_server_frida/env
+/Scripts/redirect_server_frida/AntiFrida_Google.js
+/Scripts/redirect_server_mitmproxy/env

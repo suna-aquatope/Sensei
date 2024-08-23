@@ -66,6 +66,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
                 var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
                 CurrencyUtils.ConsumeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount);
+                context.Entry(account.Currencies.First()).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
             } else if(account.WeekDungeonStageHistories.Any(x => x.StageUniqueId == req.StageUniqueId))
             {
