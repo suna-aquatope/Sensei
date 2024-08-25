@@ -23,7 +23,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             var raidList = sessionKeyService.GetAccount(req.SessionKey).MultiFloorRaids.ToList();
             return new MultiFloorRaidSyncResponse()
             {
-                MultiFloorRaidDBs = sessionKeyService.GetAccount(req.SessionKey).MultiFloorRaids.ToList(),
+                MultiFloorRaidDBs = raidList.Count == 0 ? new List<MultiFloorRaidDB>() { new() { SeasonId = (long)req.SeasonId } } : raidList,
             };
         }
 
