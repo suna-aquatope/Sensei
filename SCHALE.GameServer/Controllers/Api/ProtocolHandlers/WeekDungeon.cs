@@ -1,8 +1,11 @@
 using SCHALE.Common.Database;
+using SCHALE.Common.Database.ModelExtensions;
 using SCHALE.Common.FlatData;
+using SCHALE.Common.Migrations.SqlServerMigrations;
 using SCHALE.Common.NetworkProtocol;
 using SCHALE.GameServer.Managers;
 using SCHALE.GameServer.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 {
@@ -36,9 +39,17 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
 
+            var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
+            CurrencyUtils.ChangeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount);
+            context.Entry(account.Currencies.First()).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+
             return new WeekDungeonEnterBattleResponse()
             {
-
+                ParcelResultDB = new()
+                {
+                    AccountCurrencyDB = account.Currencies.First(),
+                }
             };
         }
 
@@ -46,40 +57,57 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         public ResponsePacket BattleResultHandler(WeekDungeonBattleResultRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
-            var db = new WeekDungeonStageHistoryDB();
-            if(!req.Summary.IsAbort)
+            var currencies = account.Currencies.First();
+            var historyDb = new WeekDungeonStageHistoryDB() { AccountServerId = req.AccountId, StageUniqueId = req.StageUniqueId };
+            var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
+
+            if (!req.Summary.IsAbort && req.Summary.EndType == Common.MX.Logic.Battles.BattleEndType.Clear)
             {
-                db.IsCleardEver = false;
+                historyDb.StarGoalRecord = ScoreService.CalculateScore(req.Summary, weekDungeonData.StarGoal, weekDungeonData.StarGoalAmount);
+
                 if (account.WeekDungeonStageHistories.Any(x => x.StageUniqueId == req.StageUniqueId))
                 {
-                    db = account.WeekDungeonStageHistories.First();
-                    db.IsCleardEver = true;
+                    var existStarGoalRecord = account.WeekDungeonStageHistories.Where(x => x.StageUniqueId == req.StageUniqueId).First().StarGoalRecord;
+                    foreach (var goalPair in historyDb.StarGoalRecord)
+                    {
+                        if (existStarGoalRecord.ContainsKey(goalPair.Key))
+                        {
+                            if(goalPair.Value > existStarGoalRecord[goalPair.Key])
+                            {
+                                existStarGoalRecord[goalPair.Key] = goalPair.Value;
+                            }
+                        }
+                        else
+                        {
+                            existStarGoalRecord.Add(goalPair.Key, goalPair.Value);
+                        }
+                    }
+
+                    context.Entry(account.WeekDungeonStageHistories.First()).State = EntityState.Modified;
                 }
                 else
                 {
-                    account.WeekDungeonStageHistories.Add(db);
+                    account.WeekDungeonStageHistories.Add(historyDb);
                 }
-                db.AccountServerId = req.AccountId;
-                db.StageUniqueId = req.StageUniqueId;
-                // ToDo: Calculate scores
-                db.StarGoalRecord = new() { { StarGoalType.Clear, 1 }, { StarGoalType.GetBoxes, 1 }, { StarGoalType.ClearTimeInSec, 1 }, { StarGoalType.AllAlive, 1 } };
-
-                var weekDungeonData = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
-                CurrencyUtils.ConsumeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount);
-                context.Entry(account.Currencies.First()).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
-            } else if(account.WeekDungeonStageHistories.Any(x => x.StageUniqueId == req.StageUniqueId))
+            }
+            else
             {
-                db = account.WeekDungeonStageHistories.First();
+                // Return currencies
+                CurrencyUtils.ChangeCurrencies(ref account, weekDungeonData.StageEnterCostId, weekDungeonData.StageEnterCostAmount, true);
+
+                context.Entry(currencies).State = EntityState.Modified;
             }
 
             context.SaveChanges();
 
             return new WeekDungeonBattleResultResponse()
             {
-                WeekDungeonStageHistoryDB = db,
+                WeekDungeonStageHistoryDB = historyDb,
                 LevelUpCharacterDBs = new(),
-                ParcelResultDB = ParcelService.GetParcelResult(account),
+                ParcelResultDB = new()
+                {
+                    AccountCurrencyDB = currencies,
+                },
             };
         }
     }

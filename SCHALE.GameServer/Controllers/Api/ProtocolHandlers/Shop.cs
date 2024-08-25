@@ -108,7 +108,6 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = _sessionKeyService.GetAccount(req.SessionKey);
             var accountChSet = account.Characters.Select(x => x.UniqueId).ToHashSet();
-            var recruitInfo = _excelTableService.GetTable<ShopRecruitExcelTable>().UnPack().DataList.Where(x => x.Id == req.ShopUniqueId).ToList().First();
 
             // TODO: Implement FES Gacha
             // TODO: Check Gacha currency
@@ -291,7 +290,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                         }
 
                         // Consume currencies
-                        CurrencyUtils.ConsumeGem(ref account, req.Cost.Currency);
+                        CurrencyUtils.ConsumeCurrencies(ref account, req.Cost.Currency);
                         _context.Entry(account.Currencies.First()).State = EntityState.Modified;
 
                         _context.SaveChanges();

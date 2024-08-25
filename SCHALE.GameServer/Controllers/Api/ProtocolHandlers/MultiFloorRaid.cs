@@ -68,7 +68,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new MultiFloorRaidEndBattleResponse()
             {
                 MultiFloorRaidDB = db,
-                ParcelResultDB = ParcelService.GetParcelResult(account)
+                ParcelResultDB = new()
             };
         }
 
@@ -79,7 +79,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new MultiFloorRaidEndBattleResponse()
             {
                 MultiFloorRaidDB = sessionKeyService.GetAccount(req.SessionKey).MultiFloorRaids.LastOrDefault() ?? new(),
-                ParcelResultDB = ParcelService.GetParcelResult(account)
+                ParcelResultDB = new()
             };
         }
     }
