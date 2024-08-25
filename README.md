@@ -26,7 +26,7 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ![image](https://github.com/user-attachments/assets/661aa5a0-1ae7-4d7b-bf81-9a30fd026f93)
 
-Mostly working, playing stage, unlocking next stage, except for score calculating (you always will be given 3 stars for now)
+Mostly working, playing stage, unlocking next stage, partial score calculating (except all student are alive star)
 
 ---
 
