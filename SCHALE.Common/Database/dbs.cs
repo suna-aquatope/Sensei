@@ -1,4 +1,7 @@
 using SCHALE.Common.FlatData;
+using SCHALE.Common.MX.Logic.Battles;
+using SCHALE.Common.MX.Logic.Battles.Summary;
+using SCHALE.Common.MX.Logic.Data;
 using SCHALE.Common.NetworkProtocol;
 using SCHALE.Common.Parcel;
 using System.Collections.ObjectModel;
@@ -88,7 +91,7 @@ namespace SCHALE.Common.Database
 
         public bool IsBossBattle { get; set; }
 
-        //public BattleTypes BattleType { get; set; }
+        public BattleTypes BattleType { get; set; }
 
         public long StageId { get; set; }
 
@@ -99,7 +102,7 @@ namespace SCHALE.Common.Database
         [JsonIgnore]
         public bool IsPlayerWin {  get; set; }  
 
-        //public BattleEndType EndType { get; set; }
+        public BattleEndType EndType { get; set; }
 
         public int EndFrame { get; set; }
 
@@ -107,7 +110,7 @@ namespace SCHALE.Common.Database
 
         //public GroupSummary Group02Summary { get; set; }
 
-        //public WeekDungeonSummary WeekDungeonSummary { get; set; }
+        public WeekDungeonSummary WeekDungeonSummary { get; set; }
 
         public RaidSummary RaidSummary { get; set; }
 
