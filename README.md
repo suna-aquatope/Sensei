@@ -44,6 +44,8 @@ This makes it behave the same as the game, e.g., when you pull a gacha, the gems
 
 ![image](https://github.com/user-attachments/assets/6e62d283-6edd-424b-920d-3767549e9ba0)
 
+currencyId can be found at [SCHALE.Common/FlatData/CurrencyTypes.cs](https://github.com/Endergreen12/SCHALE.GameServer/blob/master/SCHALE.Common/FlatData/CurrencyTypes.cs)
+
 ---
 
 - Cafe
