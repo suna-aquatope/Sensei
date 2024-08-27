@@ -529,12 +529,6 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new BillingPurchaseListByYostarResponse();
         }
 
-        [ProtocolHandler(Protocol.SchoolDungeon_List)]
-        public ResponsePacket SchoolDungeon_ListHandler(SchoolDungeonListRequest req)
-        {
-            return new SchoolDungeonListResponse();
-        }
-
         [ProtocolHandler(Protocol.MiniGame_MissionList)]
         public ResponsePacket MiniGame_MissionListHandler(MiniGameMissionListRequest req)
         {

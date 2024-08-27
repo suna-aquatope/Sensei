@@ -371,6 +371,9 @@ namespace SCHALE.Common.Database
         public virtual ICollection<WeekDungeonStageHistoryDB> WeekDungeonStageHistories { get; }
 
         [JsonIgnore]
+        public virtual ICollection<SchoolDungeonStageHistoryDB> SchoolDungeonStageHistories { get; }
+
+        [JsonIgnore]
         public virtual RaidInfo RaidInfo { get; set; }
 
         public AccountDB() { 
@@ -387,6 +390,7 @@ namespace SCHALE.Common.Database
             MultiFloorRaids = new List<MultiFloorRaidDB>();
             Cafes = new List<CafeDB>();
             WeekDungeonStageHistories = new List<WeekDungeonStageHistoryDB>();
+            SchoolDungeonStageHistories = new List<SchoolDungeonStageHistoryDB>();
         }
 
         public AccountDB(long publisherAccountId) : this()
@@ -2282,7 +2286,14 @@ namespace SCHALE.Common.Database
 
     public class SchoolDungeonStageHistoryDB
     {
+        [JsonIgnore]
+        public virtual AccountDB Account { get; set; }
+
+        [JsonIgnore]
         public long AccountServerId { get; set; }
+
+        [Key]
+        public long ServerId { get; set; }
         public long StageUniqueId { get; set; }
         public long BestStarRecord { get; set; }
         public bool Star1Flag { get; set; }
