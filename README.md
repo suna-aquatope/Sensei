@@ -26,7 +26,7 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ![image](https://github.com/user-attachments/assets/661aa5a0-1ae7-4d7b-bf81-9a30fd026f93)
 
-Mostly working, playing stage, unlocking next stage, except for score calculating (you always will be given 3 stars for now)
+Mostly working, playing stage, unlocking next stage, partial score calculating (except all student are alive star)
 
 ---
 
@@ -43,6 +43,8 @@ This makes it behave the same as the game, e.g., when you pull a gacha, the gems
 ![image](https://github.com/user-attachments/assets/b9f9d43a-7d0e-40d9-a6a4-8c836b19403a)
 
 ![image](https://github.com/user-attachments/assets/6e62d283-6edd-424b-920d-3767549e9ba0)
+
+currencyId can be found at [SCHALE.Common/FlatData/CurrencyTypes.cs](https://github.com/Endergreen12/SCHALE.GameServer/blob/master/SCHALE.Common/FlatData/CurrencyTypes.cs)
 
 ---
 
