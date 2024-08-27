@@ -90,6 +90,11 @@ namespace SCHALE.Common.Database
                 .HasForeignKey(x => x.AccountServerId)
                 .IsRequired();
             modelBuilder.Entity<AccountDB>()
+                .HasMany(x => x.ScenarioGroups)
+                .WithOne(x => x.Account)
+                .HasForeignKey(x => x.AccountServerId)
+                .IsRequired();
+            modelBuilder.Entity<AccountDB>()
                 .HasMany(x => x.MultiFloorRaids)
                 .WithOne(x => x.Account)
                 .HasForeignKey(x => x.AccountServerId)
@@ -144,6 +149,8 @@ namespace SCHALE.Common.Database
             modelBuilder.Entity<WeekDungeonStageHistoryDB>().Property(x => x.StarGoalRecord).HasJsonConversion();
 
             modelBuilder.Entity<SchoolDungeonStageHistoryDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<ScenarioGroupHistoryDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
         }
     }
 

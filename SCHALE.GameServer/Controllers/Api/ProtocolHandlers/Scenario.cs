@@ -34,7 +34,24 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         [ProtocolHandler(Protocol.Scenario_GroupHistoryUpdate)]
         public ResponsePacket GroupHistoryUpdateHandler(ScenarioGroupHistoryUpdateRequest req)
         {
-            return new ScenarioGroupHistoryUpdateResponse();
+            var account = sessionKeyService.GetAccount(req.SessionKey);
+            if (!account.ScenarioGroups.Any(x => x.ScenarioGroupUqniueId == req.ScenarioGroupUniqueId))
+            {
+                account.ScenarioGroups.Add(new()
+                {
+                    AccountServerId = req.AccountId,
+                    ScenarioGroupUqniueId = req.ScenarioGroupUniqueId,
+                    ScenarioType = req.ScenarioType,
+                    ClearDateTime = DateTime.Now
+                });
+
+                context.SaveChanges();
+            }
+
+            return new ScenarioGroupHistoryUpdateResponse()
+            {
+                ScenarioGroupHistoryDB = account.ScenarioGroups.First(x => x.ScenarioGroupUqniueId == req.ScenarioGroupUniqueId),
+            };
         }
         
         [ProtocolHandler(Protocol.Scenario_LobbyStudentChange)]

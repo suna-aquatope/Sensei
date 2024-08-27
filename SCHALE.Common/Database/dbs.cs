@@ -360,6 +360,9 @@ namespace SCHALE.Common.Database
         public virtual ICollection<ScenarioHistoryDB> Scenarios { get; }
 
         [JsonIgnore]
+        public virtual ICollection<ScenarioGroupHistoryDB> ScenarioGroups { get; }
+
+        [JsonIgnore]
         public virtual ICollection<AccountCurrencyDB> Currencies { get; }
 
         [JsonIgnore]
@@ -386,6 +389,7 @@ namespace SCHALE.Common.Database
             Gears = new List<GearDB>();
             MemoryLobbies = new List<MemoryLobbyDB>();
             Scenarios = new List<ScenarioHistoryDB>();
+            ScenarioGroups = new List<ScenarioGroupHistoryDB>();
             Currencies = new List<AccountCurrencyDB>();
             MultiFloorRaids = new List<MultiFloorRaidDB>();
             Cafes = new List<CafeDB>();
@@ -2258,7 +2262,14 @@ namespace SCHALE.Common.Database
 
     public class ScenarioGroupHistoryDB
     {
+        [JsonIgnore]
+        public virtual AccountDB Account { get; set; }
+
+        [JsonIgnore]
         public long AccountServerId { get; set; }
+
+        [Key]
+        public long ServerId { get; set; }
         public long ScenarioGroupUqniueId { get; set; }
         public long ScenarioType { get; set; }
         public long? EventContentId { get; set; }

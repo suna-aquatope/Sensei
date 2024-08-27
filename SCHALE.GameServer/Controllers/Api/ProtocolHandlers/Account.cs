@@ -389,7 +389,8 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
                 ScenarioListResponse = new ScenarioListResponse()
                 {
-                    ScenarioHistoryDBs = [.. account.Scenarios]
+                    ScenarioHistoryDBs = [.. account.Scenarios],
+                    ScenarioGroupHistoryDBs = [.. account.ScenarioGroups]
                 },
 
                 EliminateRaidLoginResponse = new EliminateRaidLoginResponse()
