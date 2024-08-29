@@ -8,6 +8,8 @@ use the mitmproxy method
 
 usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/master/Scripts/redirect_server_mitmproxy/README.md)
 
+---
+
 ## Differences from original repo
 
 ### Implemented features
@@ -16,21 +18,9 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ![image](https://github.com/user-attachments/assets/2487164d-b56b-433b-a500-c6bd670c4f59)
 
-If you have ever used the “/character add all” command, you will notice that recently implemented characters are not added
+With this support, “/character add all” and “/inventory addall” commands will now properly add the latest characters and memory lobbies
 
-This is because the server cannot read the latest excel files, so it downloads and uses old game files
-
-The server doesn't know the new character exists because it is loading an older version of the file
-
-This fork supports loading the latest excel files, so you can properly add the latest characters with the add all command
-
----
-
-Currently adding memory lobby by executing "/inventory addall" command does not work
-
-This is because Excel.zip of latest version of game doesn't have MemoryLobbyExcelTable.bytes
-
-Under investigation and will resolve as soon as possible
+If you built the server before this support was added, please delete the bin folder and completely rebuild it
 
 ---
 
