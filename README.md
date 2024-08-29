@@ -12,6 +12,20 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ### Implemented features
 
+- Support for loading excel of latest version of game
+
+![image](https://github.com/user-attachments/assets/2487164d-b56b-433b-a500-c6bd670c4f59)
+
+If you have ever used the “character add all” command, you will notice that recently implemented characters are not added
+
+This is because the server cannot read the latest excel files, so it downloads and uses old game files
+
+The server does not know the new character exists because it is loading an older version of the file
+
+This fork supports loading the latest excel files, so you can properly add the latest characters with the add all command
+
+---
+
 - Fixed Gacha
 
 ![image](https://github.com/user-attachments/assets/30f12db7-5405-4a11-9576-6a71ddb9c54f)
