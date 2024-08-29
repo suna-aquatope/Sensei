@@ -28,7 +28,7 @@ public struct ProductMonthlyExcel : IFlatbufferObject
   public ArraySegment<byte>? GetProductIdBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
   public byte[] GetProductIdArray() { return __p.__vector_as_array<byte>(6); }
-  public SCHALE.Common.FlatData.StoreType StoreType { get { int o = __p.__offset(8); return o != 0 ? (SCHALE.Common.FlatData.StoreType)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.StoreType.None; } }
+  public FlatData.StoreType StoreType { get { int o = __p.__offset(8); return o != 0 ? (FlatData.StoreType)__p.bb.GetInt(o + __p.bb_pos) : FlatData.StoreType.None; } }
   public long Price { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
   public string PriceReference { get { int o = __p.__offset(12); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
@@ -37,66 +37,68 @@ public struct ProductMonthlyExcel : IFlatbufferObject
   public ArraySegment<byte>? GetPriceReferenceBytes() { return __p.__vector_as_arraysegment(12); }
 #endif
   public byte[] GetPriceReferenceArray() { return __p.__vector_as_array<byte>(12); }
-  public SCHALE.Common.FlatData.ProductTagType ProductTagType { get { int o = __p.__offset(14); return o != 0 ? (SCHALE.Common.FlatData.ProductTagType)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.ProductTagType.Monthly; } }
+  public FlatData.ProductTagType ProductTagType { get { int o = __p.__offset(14); return o != 0 ? (FlatData.ProductTagType)__p.bb.GetInt(o + __p.bb_pos) : FlatData.ProductTagType.Monthly; } }
   public long MonthlyDays { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
-  public SCHALE.Common.FlatData.ParcelType ParcelType_(int j) { int o = __p.__offset(18); return o != 0 ? (SCHALE.Common.FlatData.ParcelType)__p.bb.GetInt(__p.__vector(o) + j * 4) : (SCHALE.Common.FlatData.ParcelType)0; }
-  public int ParcelType_Length { get { int o = __p.__offset(18); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public bool UseMonthlyProductCheck { get { int o = __p.__offset(18); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public FlatData.ParcelType ParcelType_(int j) { int o = __p.__offset(20); return o != 0 ? (FlatData.ParcelType)__p.bb.GetInt(__p.__vector(o) + j * 4) : (FlatData.ParcelType)0; }
+  public int ParcelType_Length { get { int o = __p.__offset(20); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
-  public Span<SCHALE.Common.FlatData.ParcelType> GetParcelType_Bytes() { return __p.__vector_as_span<SCHALE.Common.FlatData.ParcelType>(18, 4); }
+  public Span<FlatData.ParcelType> GetParcelType_Bytes() { return __p.__vector_as_span<FlatData.ParcelType>(20, 4); }
 #else
-  public ArraySegment<byte>? GetParcelType_Bytes() { return __p.__vector_as_arraysegment(18); }
+  public ArraySegment<byte>? GetParcelType_Bytes() { return __p.__vector_as_arraysegment(20); }
 #endif
-  public SCHALE.Common.FlatData.ParcelType[] GetParcelType_Array() { int o = __p.__offset(18); if (o == 0) return null; int p = __p.__vector(o); int l = __p.__vector_len(o); SCHALE.Common.FlatData.ParcelType[] a = new SCHALE.Common.FlatData.ParcelType[l]; for (int i = 0; i < l; i++) { a[i] = (SCHALE.Common.FlatData.ParcelType)__p.bb.GetInt(p + i * 4); } return a; }
-  public long ParcelId(int j) { int o = __p.__offset(20); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
-  public int ParcelIdLength { get { int o = __p.__offset(20); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public FlatData.ParcelType[] GetParcelType_Array() { int o = __p.__offset(20); if (o == 0) return null; int p = __p.__vector(o); int l = __p.__vector_len(o); FlatData.ParcelType[] a = new FlatData.ParcelType[l]; for (int i = 0; i < l; i++) { a[i] = (FlatData.ParcelType)__p.bb.GetInt(p + i * 4); } return a; }
+  public long ParcelId(int j) { int o = __p.__offset(22); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
+  public int ParcelIdLength { get { int o = __p.__offset(22); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
-  public Span<long> GetParcelIdBytes() { return __p.__vector_as_span<long>(20, 8); }
+  public Span<long> GetParcelIdBytes() { return __p.__vector_as_span<long>(22, 8); }
 #else
-  public ArraySegment<byte>? GetParcelIdBytes() { return __p.__vector_as_arraysegment(20); }
+  public ArraySegment<byte>? GetParcelIdBytes() { return __p.__vector_as_arraysegment(22); }
 #endif
-  public long[] GetParcelIdArray() { return __p.__vector_as_array<long>(20); }
-  public long ParcelAmount(int j) { int o = __p.__offset(22); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
-  public int ParcelAmountLength { get { int o = __p.__offset(22); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public long[] GetParcelIdArray() { return __p.__vector_as_array<long>(22); }
+  public long ParcelAmount(int j) { int o = __p.__offset(24); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
+  public int ParcelAmountLength { get { int o = __p.__offset(24); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
-  public Span<long> GetParcelAmountBytes() { return __p.__vector_as_span<long>(22, 8); }
+  public Span<long> GetParcelAmountBytes() { return __p.__vector_as_span<long>(24, 8); }
 #else
-  public ArraySegment<byte>? GetParcelAmountBytes() { return __p.__vector_as_arraysegment(22); }
+  public ArraySegment<byte>? GetParcelAmountBytes() { return __p.__vector_as_arraysegment(24); }
 #endif
-  public long[] GetParcelAmountArray() { return __p.__vector_as_array<long>(22); }
-  public long EnterCostReduceGroupId { get { int o = __p.__offset(24); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
-  public SCHALE.Common.FlatData.ParcelType DailyParcelType(int j) { int o = __p.__offset(26); return o != 0 ? (SCHALE.Common.FlatData.ParcelType)__p.bb.GetInt(__p.__vector(o) + j * 4) : (SCHALE.Common.FlatData.ParcelType)0; }
-  public int DailyParcelTypeLength { get { int o = __p.__offset(26); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public long[] GetParcelAmountArray() { return __p.__vector_as_array<long>(24); }
+  public long EnterCostReduceGroupId { get { int o = __p.__offset(26); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
+  public FlatData.ParcelType DailyParcelType(int j) { int o = __p.__offset(28); return o != 0 ? (FlatData.ParcelType)__p.bb.GetInt(__p.__vector(o) + j * 4) : (FlatData.ParcelType)0; }
+  public int DailyParcelTypeLength { get { int o = __p.__offset(28); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
-  public Span<SCHALE.Common.FlatData.ParcelType> GetDailyParcelTypeBytes() { return __p.__vector_as_span<SCHALE.Common.FlatData.ParcelType>(26, 4); }
+  public Span<FlatData.ParcelType> GetDailyParcelTypeBytes() { return __p.__vector_as_span<FlatData.ParcelType>(28, 4); }
 #else
-  public ArraySegment<byte>? GetDailyParcelTypeBytes() { return __p.__vector_as_arraysegment(26); }
+  public ArraySegment<byte>? GetDailyParcelTypeBytes() { return __p.__vector_as_arraysegment(28); }
 #endif
-  public SCHALE.Common.FlatData.ParcelType[] GetDailyParcelTypeArray() { int o = __p.__offset(26); if (o == 0) return null; int p = __p.__vector(o); int l = __p.__vector_len(o); SCHALE.Common.FlatData.ParcelType[] a = new SCHALE.Common.FlatData.ParcelType[l]; for (int i = 0; i < l; i++) { a[i] = (SCHALE.Common.FlatData.ParcelType)__p.bb.GetInt(p + i * 4); } return a; }
-  public long DailyParcelId(int j) { int o = __p.__offset(28); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
-  public int DailyParcelIdLength { get { int o = __p.__offset(28); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public FlatData.ParcelType[] GetDailyParcelTypeArray() { int o = __p.__offset(28); if (o == 0) return null; int p = __p.__vector(o); int l = __p.__vector_len(o); FlatData.ParcelType[] a = new FlatData.ParcelType[l]; for (int i = 0; i < l; i++) { a[i] = (FlatData.ParcelType)__p.bb.GetInt(p + i * 4); } return a; }
+  public long DailyParcelId(int j) { int o = __p.__offset(30); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
+  public int DailyParcelIdLength { get { int o = __p.__offset(30); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
-  public Span<long> GetDailyParcelIdBytes() { return __p.__vector_as_span<long>(28, 8); }
+  public Span<long> GetDailyParcelIdBytes() { return __p.__vector_as_span<long>(30, 8); }
 #else
-  public ArraySegment<byte>? GetDailyParcelIdBytes() { return __p.__vector_as_arraysegment(28); }
+  public ArraySegment<byte>? GetDailyParcelIdBytes() { return __p.__vector_as_arraysegment(30); }
 #endif
-  public long[] GetDailyParcelIdArray() { return __p.__vector_as_array<long>(28); }
-  public long DailyParcelAmount(int j) { int o = __p.__offset(30); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
-  public int DailyParcelAmountLength { get { int o = __p.__offset(30); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public long[] GetDailyParcelIdArray() { return __p.__vector_as_array<long>(30); }
+  public long DailyParcelAmount(int j) { int o = __p.__offset(32); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
+  public int DailyParcelAmountLength { get { int o = __p.__offset(32); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
-  public Span<long> GetDailyParcelAmountBytes() { return __p.__vector_as_span<long>(30, 8); }
+  public Span<long> GetDailyParcelAmountBytes() { return __p.__vector_as_span<long>(32, 8); }
 #else
-  public ArraySegment<byte>? GetDailyParcelAmountBytes() { return __p.__vector_as_arraysegment(30); }
+  public ArraySegment<byte>? GetDailyParcelAmountBytes() { return __p.__vector_as_arraysegment(32); }
 #endif
-  public long[] GetDailyParcelAmountArray() { return __p.__vector_as_array<long>(30); }
+  public long[] GetDailyParcelAmountArray() { return __p.__vector_as_array<long>(32); }
 
-  public static Offset<SCHALE.Common.FlatData.ProductMonthlyExcel> CreateProductMonthlyExcel(FlatBufferBuilder builder,
+  public static Offset<FlatData.ProductMonthlyExcel> CreateProductMonthlyExcel(FlatBufferBuilder builder,
       long Id = 0,
       StringOffset ProductIdOffset = default(StringOffset),
-      SCHALE.Common.FlatData.StoreType StoreType = SCHALE.Common.FlatData.StoreType.None,
+      FlatData.StoreType StoreType = FlatData.StoreType.None,
       long Price = 0,
       StringOffset PriceReferenceOffset = default(StringOffset),
-      SCHALE.Common.FlatData.ProductTagType ProductTagType = SCHALE.Common.FlatData.ProductTagType.Monthly,
+      FlatData.ProductTagType ProductTagType = FlatData.ProductTagType.Monthly,
       long MonthlyDays = 0,
+      bool UseMonthlyProductCheck = false,
       VectorOffset ParcelType_Offset = default(VectorOffset),
       VectorOffset ParcelIdOffset = default(VectorOffset),
       VectorOffset ParcelAmountOffset = default(VectorOffset),
@@ -104,7 +106,7 @@ public struct ProductMonthlyExcel : IFlatbufferObject
       VectorOffset DailyParcelTypeOffset = default(VectorOffset),
       VectorOffset DailyParcelIdOffset = default(VectorOffset),
       VectorOffset DailyParcelAmountOffset = default(VectorOffset)) {
-    builder.StartTable(14);
+    builder.StartTable(15);
     ProductMonthlyExcel.AddEnterCostReduceGroupId(builder, EnterCostReduceGroupId);
     ProductMonthlyExcel.AddMonthlyDays(builder, MonthlyDays);
     ProductMonthlyExcel.AddPrice(builder, Price);
@@ -119,57 +121,59 @@ public struct ProductMonthlyExcel : IFlatbufferObject
     ProductMonthlyExcel.AddPriceReference(builder, PriceReferenceOffset);
     ProductMonthlyExcel.AddStoreType(builder, StoreType);
     ProductMonthlyExcel.AddProductId(builder, ProductIdOffset);
+    ProductMonthlyExcel.AddUseMonthlyProductCheck(builder, UseMonthlyProductCheck);
     return ProductMonthlyExcel.EndProductMonthlyExcel(builder);
   }
 
-  public static void StartProductMonthlyExcel(FlatBufferBuilder builder) { builder.StartTable(14); }
+  public static void StartProductMonthlyExcel(FlatBufferBuilder builder) { builder.StartTable(15); }
   public static void AddId(FlatBufferBuilder builder, long id) { builder.AddLong(0, id, 0); }
   public static void AddProductId(FlatBufferBuilder builder, StringOffset productIdOffset) { builder.AddOffset(1, productIdOffset.Value, 0); }
-  public static void AddStoreType(FlatBufferBuilder builder, SCHALE.Common.FlatData.StoreType storeType) { builder.AddInt(2, (int)storeType, 0); }
+  public static void AddStoreType(FlatBufferBuilder builder, FlatData.StoreType storeType) { builder.AddInt(2, (int)storeType, 0); }
   public static void AddPrice(FlatBufferBuilder builder, long price) { builder.AddLong(3, price, 0); }
   public static void AddPriceReference(FlatBufferBuilder builder, StringOffset priceReferenceOffset) { builder.AddOffset(4, priceReferenceOffset.Value, 0); }
-  public static void AddProductTagType(FlatBufferBuilder builder, SCHALE.Common.FlatData.ProductTagType productTagType) { builder.AddInt(5, (int)productTagType, 0); }
+  public static void AddProductTagType(FlatBufferBuilder builder, FlatData.ProductTagType productTagType) { builder.AddInt(5, (int)productTagType, 0); }
   public static void AddMonthlyDays(FlatBufferBuilder builder, long monthlyDays) { builder.AddLong(6, monthlyDays, 0); }
-  public static void AddParcelType_(FlatBufferBuilder builder, VectorOffset parcelType_Offset) { builder.AddOffset(7, parcelType_Offset.Value, 0); }
-  public static VectorOffset CreateParcelType_Vector(FlatBufferBuilder builder, SCHALE.Common.FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddInt((int)data[i]); return builder.EndVector(); }
-  public static VectorOffset CreateParcelType_VectorBlock(FlatBufferBuilder builder, SCHALE.Common.FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateParcelType_VectorBlock(FlatBufferBuilder builder, ArraySegment<SCHALE.Common.FlatData.ParcelType> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateParcelType_VectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<SCHALE.Common.FlatData.ParcelType>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void AddUseMonthlyProductCheck(FlatBufferBuilder builder, bool useMonthlyProductCheck) { builder.AddBool(7, useMonthlyProductCheck, false); }
+  public static void AddParcelType_(FlatBufferBuilder builder, VectorOffset parcelType_Offset) { builder.AddOffset(8, parcelType_Offset.Value, 0); }
+  public static VectorOffset CreateParcelType_Vector(FlatBufferBuilder builder, FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddInt((int)data[i]); return builder.EndVector(); }
+  public static VectorOffset CreateParcelType_VectorBlock(FlatBufferBuilder builder, FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateParcelType_VectorBlock(FlatBufferBuilder builder, ArraySegment<FlatData.ParcelType> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateParcelType_VectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<FlatData.ParcelType>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartParcelType_Vector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddParcelId(FlatBufferBuilder builder, VectorOffset parcelIdOffset) { builder.AddOffset(8, parcelIdOffset.Value, 0); }
+  public static void AddParcelId(FlatBufferBuilder builder, VectorOffset parcelIdOffset) { builder.AddOffset(9, parcelIdOffset.Value, 0); }
   public static VectorOffset CreateParcelIdVector(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddLong(data[i]); return builder.EndVector(); }
   public static VectorOffset CreateParcelIdVectorBlock(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateParcelIdVectorBlock(FlatBufferBuilder builder, ArraySegment<long> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateParcelIdVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<long>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartParcelIdVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
-  public static void AddParcelAmount(FlatBufferBuilder builder, VectorOffset parcelAmountOffset) { builder.AddOffset(9, parcelAmountOffset.Value, 0); }
+  public static void AddParcelAmount(FlatBufferBuilder builder, VectorOffset parcelAmountOffset) { builder.AddOffset(10, parcelAmountOffset.Value, 0); }
   public static VectorOffset CreateParcelAmountVector(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddLong(data[i]); return builder.EndVector(); }
   public static VectorOffset CreateParcelAmountVectorBlock(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateParcelAmountVectorBlock(FlatBufferBuilder builder, ArraySegment<long> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateParcelAmountVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<long>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartParcelAmountVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
-  public static void AddEnterCostReduceGroupId(FlatBufferBuilder builder, long enterCostReduceGroupId) { builder.AddLong(10, enterCostReduceGroupId, 0); }
-  public static void AddDailyParcelType(FlatBufferBuilder builder, VectorOffset dailyParcelTypeOffset) { builder.AddOffset(11, dailyParcelTypeOffset.Value, 0); }
-  public static VectorOffset CreateDailyParcelTypeVector(FlatBufferBuilder builder, SCHALE.Common.FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddInt((int)data[i]); return builder.EndVector(); }
-  public static VectorOffset CreateDailyParcelTypeVectorBlock(FlatBufferBuilder builder, SCHALE.Common.FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateDailyParcelTypeVectorBlock(FlatBufferBuilder builder, ArraySegment<SCHALE.Common.FlatData.ParcelType> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
-  public static VectorOffset CreateDailyParcelTypeVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<SCHALE.Common.FlatData.ParcelType>(dataPtr, sizeInBytes); return builder.EndVector(); }
+  public static void AddEnterCostReduceGroupId(FlatBufferBuilder builder, long enterCostReduceGroupId) { builder.AddLong(11, enterCostReduceGroupId, 0); }
+  public static void AddDailyParcelType(FlatBufferBuilder builder, VectorOffset dailyParcelTypeOffset) { builder.AddOffset(12, dailyParcelTypeOffset.Value, 0); }
+  public static VectorOffset CreateDailyParcelTypeVector(FlatBufferBuilder builder, FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddInt((int)data[i]); return builder.EndVector(); }
+  public static VectorOffset CreateDailyParcelTypeVectorBlock(FlatBufferBuilder builder, FlatData.ParcelType[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateDailyParcelTypeVectorBlock(FlatBufferBuilder builder, ArraySegment<FlatData.ParcelType> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateDailyParcelTypeVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<FlatData.ParcelType>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartDailyParcelTypeVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddDailyParcelId(FlatBufferBuilder builder, VectorOffset dailyParcelIdOffset) { builder.AddOffset(12, dailyParcelIdOffset.Value, 0); }
+  public static void AddDailyParcelId(FlatBufferBuilder builder, VectorOffset dailyParcelIdOffset) { builder.AddOffset(13, dailyParcelIdOffset.Value, 0); }
   public static VectorOffset CreateDailyParcelIdVector(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddLong(data[i]); return builder.EndVector(); }
   public static VectorOffset CreateDailyParcelIdVectorBlock(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateDailyParcelIdVectorBlock(FlatBufferBuilder builder, ArraySegment<long> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateDailyParcelIdVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<long>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartDailyParcelIdVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
-  public static void AddDailyParcelAmount(FlatBufferBuilder builder, VectorOffset dailyParcelAmountOffset) { builder.AddOffset(13, dailyParcelAmountOffset.Value, 0); }
+  public static void AddDailyParcelAmount(FlatBufferBuilder builder, VectorOffset dailyParcelAmountOffset) { builder.AddOffset(14, dailyParcelAmountOffset.Value, 0); }
   public static VectorOffset CreateDailyParcelAmountVector(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddLong(data[i]); return builder.EndVector(); }
   public static VectorOffset CreateDailyParcelAmountVectorBlock(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateDailyParcelAmountVectorBlock(FlatBufferBuilder builder, ArraySegment<long> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateDailyParcelAmountVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<long>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartDailyParcelAmountVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
-  public static Offset<SCHALE.Common.FlatData.ProductMonthlyExcel> EndProductMonthlyExcel(FlatBufferBuilder builder) {
+  public static Offset<FlatData.ProductMonthlyExcel> EndProductMonthlyExcel(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<SCHALE.Common.FlatData.ProductMonthlyExcel>(o);
+    return new Offset<FlatData.ProductMonthlyExcel>(o);
   }
   public ProductMonthlyExcelT UnPack() {
     var _o = new ProductMonthlyExcelT();
@@ -185,6 +189,7 @@ public struct ProductMonthlyExcel : IFlatbufferObject
     _o.PriceReference = TableEncryptionService.Convert(this.PriceReference, key);
     _o.ProductTagType = TableEncryptionService.Convert(this.ProductTagType, key);
     _o.MonthlyDays = TableEncryptionService.Convert(this.MonthlyDays, key);
+    _o.UseMonthlyProductCheck = TableEncryptionService.Convert(this.UseMonthlyProductCheck, key);
     _o.ParcelType_ = new List<SCHALE.Common.FlatData.ParcelType>();
     for (var _j = 0; _j < this.ParcelType_Length; ++_j) {_o.ParcelType_.Add(TableEncryptionService.Convert(this.ParcelType_(_j), key));}
     _o.ParcelId = new List<long>();
@@ -242,6 +247,7 @@ public struct ProductMonthlyExcel : IFlatbufferObject
       _PriceReference,
       _o.ProductTagType,
       _o.MonthlyDays,
+      _o.UseMonthlyProductCheck,
       _ParcelType_,
       _ParcelId,
       _ParcelAmount,
@@ -261,6 +267,7 @@ public class ProductMonthlyExcelT
   public string PriceReference { get; set; }
   public SCHALE.Common.FlatData.ProductTagType ProductTagType { get; set; }
   public long MonthlyDays { get; set; }
+  public bool UseMonthlyProductCheck { get; set; }
   public List<SCHALE.Common.FlatData.ParcelType> ParcelType_ { get; set; }
   public List<long> ParcelId { get; set; }
   public List<long> ParcelAmount { get; set; }
@@ -277,6 +284,7 @@ public class ProductMonthlyExcelT
     this.PriceReference = null;
     this.ProductTagType = SCHALE.Common.FlatData.ProductTagType.Monthly;
     this.MonthlyDays = 0;
+    this.UseMonthlyProductCheck = false;
     this.ParcelType_ = null;
     this.ParcelId = null;
     this.ParcelAmount = null;
@@ -295,18 +303,19 @@ static public class ProductMonthlyExcelVerify
     return verifier.VerifyTableStart(tablePos)
       && verifier.VerifyField(tablePos, 4 /*Id*/, 8 /*long*/, 8, false)
       && verifier.VerifyString(tablePos, 6 /*ProductId*/, false)
-      && verifier.VerifyField(tablePos, 8 /*StoreType*/, 4 /*SCHALE.Common.FlatData.StoreType*/, 4, false)
+      && verifier.VerifyField(tablePos, 8 /*StoreType*/, 4 /*FlatData.StoreType*/, 4, false)
       && verifier.VerifyField(tablePos, 10 /*Price*/, 8 /*long*/, 8, false)
       && verifier.VerifyString(tablePos, 12 /*PriceReference*/, false)
-      && verifier.VerifyField(tablePos, 14 /*ProductTagType*/, 4 /*SCHALE.Common.FlatData.ProductTagType*/, 4, false)
+      && verifier.VerifyField(tablePos, 14 /*ProductTagType*/, 4 /*FlatData.ProductTagType*/, 4, false)
       && verifier.VerifyField(tablePos, 16 /*MonthlyDays*/, 8 /*long*/, 8, false)
-      && verifier.VerifyVectorOfData(tablePos, 18 /*ParcelType_*/, 4 /*SCHALE.Common.FlatData.ParcelType*/, false)
-      && verifier.VerifyVectorOfData(tablePos, 20 /*ParcelId*/, 8 /*long*/, false)
-      && verifier.VerifyVectorOfData(tablePos, 22 /*ParcelAmount*/, 8 /*long*/, false)
-      && verifier.VerifyField(tablePos, 24 /*EnterCostReduceGroupId*/, 8 /*long*/, 8, false)
-      && verifier.VerifyVectorOfData(tablePos, 26 /*DailyParcelType*/, 4 /*SCHALE.Common.FlatData.ParcelType*/, false)
-      && verifier.VerifyVectorOfData(tablePos, 28 /*DailyParcelId*/, 8 /*long*/, false)
-      && verifier.VerifyVectorOfData(tablePos, 30 /*DailyParcelAmount*/, 8 /*long*/, false)
+      && verifier.VerifyField(tablePos, 18 /*UseMonthlyProductCheck*/, 1 /*bool*/, 1, false)
+      && verifier.VerifyVectorOfData(tablePos, 20 /*ParcelType_*/, 4 /*FlatData.ParcelType*/, false)
+      && verifier.VerifyVectorOfData(tablePos, 22 /*ParcelId*/, 8 /*long*/, false)
+      && verifier.VerifyVectorOfData(tablePos, 24 /*ParcelAmount*/, 8 /*long*/, false)
+      && verifier.VerifyField(tablePos, 26 /*EnterCostReduceGroupId*/, 8 /*long*/, 8, false)
+      && verifier.VerifyVectorOfData(tablePos, 28 /*DailyParcelType*/, 4 /*FlatData.ParcelType*/, false)
+      && verifier.VerifyVectorOfData(tablePos, 30 /*DailyParcelId*/, 8 /*long*/, false)
+      && verifier.VerifyVectorOfData(tablePos, 32 /*DailyParcelAmount*/, 8 /*long*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

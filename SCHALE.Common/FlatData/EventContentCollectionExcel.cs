@@ -23,7 +23,7 @@ public struct EventContentCollectionExcel : IFlatbufferObject
   public long Id { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
   public long EventContentId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
   public long GroupId { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
-  public SCHALE.Common.FlatData.EventCollectionUnlockType UnlockConditionType { get { int o = __p.__offset(10); return o != 0 ? (SCHALE.Common.FlatData.EventCollectionUnlockType)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.EventCollectionUnlockType.None; } }
+  public FlatData.CollectionUnlockType UnlockConditionType { get { int o = __p.__offset(10); return o != 0 ? (FlatData.CollectionUnlockType)__p.bb.GetInt(o + __p.bb_pos) : FlatData.CollectionUnlockType.None; } }
   public long UnlockConditionParameter(int j) { int o = __p.__offset(12); return o != 0 ? __p.bb.GetLong(__p.__vector(o) + j * 8) : (long)0; }
   public int UnlockConditionParameterLength { get { int o = __p.__offset(12); return o != 0 ? __p.__vector_len(o) : 0; } }
 #if ENABLE_SPAN_T
@@ -32,56 +32,58 @@ public struct EventContentCollectionExcel : IFlatbufferObject
   public ArraySegment<byte>? GetUnlockConditionParameterBytes() { return __p.__vector_as_arraysegment(12); }
 #endif
   public long[] GetUnlockConditionParameterArray() { return __p.__vector_as_array<long>(12); }
-  public SCHALE.Common.FlatData.MultipleConditionCheckType MultipleConditionCheckType { get { int o = __p.__offset(14); return o != 0 ? (SCHALE.Common.FlatData.MultipleConditionCheckType)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.MultipleConditionCheckType.And; } }
+  public FlatData.MultipleConditionCheckType MultipleConditionCheckType { get { int o = __p.__offset(14); return o != 0 ? (FlatData.MultipleConditionCheckType)__p.bb.GetInt(o + __p.bb_pos) : FlatData.MultipleConditionCheckType.And; } }
   public long UnlockConditionCount { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
   public bool IsObject { get { int o = __p.__offset(18); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public bool IsHorizon { get { int o = __p.__offset(20); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public string EmblemResource { get { int o = __p.__offset(22); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public bool IsObjectOnFullResource { get { int o = __p.__offset(20); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public bool IsHorizon { get { int o = __p.__offset(22); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public string EmblemResource { get { int o = __p.__offset(24); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetEmblemResourceBytes() { return __p.__vector_as_span<byte>(22, 1); }
+  public Span<byte> GetEmblemResourceBytes() { return __p.__vector_as_span<byte>(24, 1); }
 #else
-  public ArraySegment<byte>? GetEmblemResourceBytes() { return __p.__vector_as_arraysegment(22); }
+  public ArraySegment<byte>? GetEmblemResourceBytes() { return __p.__vector_as_arraysegment(24); }
 #endif
-  public byte[] GetEmblemResourceArray() { return __p.__vector_as_array<byte>(22); }
-  public string ThumbResource { get { int o = __p.__offset(24); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetEmblemResourceArray() { return __p.__vector_as_array<byte>(24); }
+  public string ThumbResource { get { int o = __p.__offset(26); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetThumbResourceBytes() { return __p.__vector_as_span<byte>(24, 1); }
+  public Span<byte> GetThumbResourceBytes() { return __p.__vector_as_span<byte>(26, 1); }
 #else
-  public ArraySegment<byte>? GetThumbResourceBytes() { return __p.__vector_as_arraysegment(24); }
+  public ArraySegment<byte>? GetThumbResourceBytes() { return __p.__vector_as_arraysegment(26); }
 #endif
-  public byte[] GetThumbResourceArray() { return __p.__vector_as_array<byte>(24); }
-  public string FullResource { get { int o = __p.__offset(26); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetThumbResourceArray() { return __p.__vector_as_array<byte>(26); }
+  public string FullResource { get { int o = __p.__offset(28); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetFullResourceBytes() { return __p.__vector_as_span<byte>(26, 1); }
+  public Span<byte> GetFullResourceBytes() { return __p.__vector_as_span<byte>(28, 1); }
 #else
-  public ArraySegment<byte>? GetFullResourceBytes() { return __p.__vector_as_arraysegment(26); }
+  public ArraySegment<byte>? GetFullResourceBytes() { return __p.__vector_as_arraysegment(28); }
 #endif
-  public byte[] GetFullResourceArray() { return __p.__vector_as_array<byte>(26); }
-  public uint LocalizeEtcId { get { int o = __p.__offset(28); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
-  public string SubNameLocalizeCodeId { get { int o = __p.__offset(30); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetFullResourceArray() { return __p.__vector_as_array<byte>(28); }
+  public uint LocalizeEtcId { get { int o = __p.__offset(30); return o != 0 ? __p.bb.GetUint(o + __p.bb_pos) : (uint)0; } }
+  public string SubNameLocalizeCodeId { get { int o = __p.__offset(32); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetSubNameLocalizeCodeIdBytes() { return __p.__vector_as_span<byte>(30, 1); }
+  public Span<byte> GetSubNameLocalizeCodeIdBytes() { return __p.__vector_as_span<byte>(32, 1); }
 #else
-  public ArraySegment<byte>? GetSubNameLocalizeCodeIdBytes() { return __p.__vector_as_arraysegment(30); }
+  public ArraySegment<byte>? GetSubNameLocalizeCodeIdBytes() { return __p.__vector_as_arraysegment(32); }
 #endif
-  public byte[] GetSubNameLocalizeCodeIdArray() { return __p.__vector_as_array<byte>(30); }
+  public byte[] GetSubNameLocalizeCodeIdArray() { return __p.__vector_as_array<byte>(32); }
 
-  public static Offset<SCHALE.Common.FlatData.EventContentCollectionExcel> CreateEventContentCollectionExcel(FlatBufferBuilder builder,
+  public static Offset<FlatData.EventContentCollectionExcel> CreateEventContentCollectionExcel(FlatBufferBuilder builder,
       long Id = 0,
       long EventContentId = 0,
       long GroupId = 0,
-      SCHALE.Common.FlatData.EventCollectionUnlockType UnlockConditionType = SCHALE.Common.FlatData.EventCollectionUnlockType.None,
+      FlatData.CollectionUnlockType UnlockConditionType = FlatData.CollectionUnlockType.None,
       VectorOffset UnlockConditionParameterOffset = default(VectorOffset),
-      SCHALE.Common.FlatData.MultipleConditionCheckType MultipleConditionCheckType = SCHALE.Common.FlatData.MultipleConditionCheckType.And,
+      FlatData.MultipleConditionCheckType MultipleConditionCheckType = FlatData.MultipleConditionCheckType.And,
       long UnlockConditionCount = 0,
       bool IsObject = false,
+      bool IsObjectOnFullResource = false,
       bool IsHorizon = false,
       StringOffset EmblemResourceOffset = default(StringOffset),
       StringOffset ThumbResourceOffset = default(StringOffset),
       StringOffset FullResourceOffset = default(StringOffset),
       uint LocalizeEtcId = 0,
       StringOffset SubNameLocalizeCodeIdOffset = default(StringOffset)) {
-    builder.StartTable(14);
+    builder.StartTable(15);
     EventContentCollectionExcel.AddUnlockConditionCount(builder, UnlockConditionCount);
     EventContentCollectionExcel.AddGroupId(builder, GroupId);
     EventContentCollectionExcel.AddEventContentId(builder, EventContentId);
@@ -95,33 +97,35 @@ public struct EventContentCollectionExcel : IFlatbufferObject
     EventContentCollectionExcel.AddUnlockConditionParameter(builder, UnlockConditionParameterOffset);
     EventContentCollectionExcel.AddUnlockConditionType(builder, UnlockConditionType);
     EventContentCollectionExcel.AddIsHorizon(builder, IsHorizon);
+    EventContentCollectionExcel.AddIsObjectOnFullResource(builder, IsObjectOnFullResource);
     EventContentCollectionExcel.AddIsObject(builder, IsObject);
     return EventContentCollectionExcel.EndEventContentCollectionExcel(builder);
   }
 
-  public static void StartEventContentCollectionExcel(FlatBufferBuilder builder) { builder.StartTable(14); }
+  public static void StartEventContentCollectionExcel(FlatBufferBuilder builder) { builder.StartTable(15); }
   public static void AddId(FlatBufferBuilder builder, long id) { builder.AddLong(0, id, 0); }
   public static void AddEventContentId(FlatBufferBuilder builder, long eventContentId) { builder.AddLong(1, eventContentId, 0); }
   public static void AddGroupId(FlatBufferBuilder builder, long groupId) { builder.AddLong(2, groupId, 0); }
-  public static void AddUnlockConditionType(FlatBufferBuilder builder, SCHALE.Common.FlatData.EventCollectionUnlockType unlockConditionType) { builder.AddInt(3, (int)unlockConditionType, 0); }
+  public static void AddUnlockConditionType(FlatBufferBuilder builder, FlatData.CollectionUnlockType unlockConditionType) { builder.AddInt(3, (int)unlockConditionType, 0); }
   public static void AddUnlockConditionParameter(FlatBufferBuilder builder, VectorOffset unlockConditionParameterOffset) { builder.AddOffset(4, unlockConditionParameterOffset.Value, 0); }
   public static VectorOffset CreateUnlockConditionParameterVector(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); for (int i = data.Length - 1; i >= 0; i--) builder.AddLong(data[i]); return builder.EndVector(); }
   public static VectorOffset CreateUnlockConditionParameterVectorBlock(FlatBufferBuilder builder, long[] data) { builder.StartVector(8, data.Length, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateUnlockConditionParameterVectorBlock(FlatBufferBuilder builder, ArraySegment<long> data) { builder.StartVector(8, data.Count, 8); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateUnlockConditionParameterVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<long>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartUnlockConditionParameterVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(8, numElems, 8); }
-  public static void AddMultipleConditionCheckType(FlatBufferBuilder builder, SCHALE.Common.FlatData.MultipleConditionCheckType multipleConditionCheckType) { builder.AddInt(5, (int)multipleConditionCheckType, 0); }
+  public static void AddMultipleConditionCheckType(FlatBufferBuilder builder, FlatData.MultipleConditionCheckType multipleConditionCheckType) { builder.AddInt(5, (int)multipleConditionCheckType, 0); }
   public static void AddUnlockConditionCount(FlatBufferBuilder builder, long unlockConditionCount) { builder.AddLong(6, unlockConditionCount, 0); }
   public static void AddIsObject(FlatBufferBuilder builder, bool isObject) { builder.AddBool(7, isObject, false); }
-  public static void AddIsHorizon(FlatBufferBuilder builder, bool isHorizon) { builder.AddBool(8, isHorizon, false); }
-  public static void AddEmblemResource(FlatBufferBuilder builder, StringOffset emblemResourceOffset) { builder.AddOffset(9, emblemResourceOffset.Value, 0); }
-  public static void AddThumbResource(FlatBufferBuilder builder, StringOffset thumbResourceOffset) { builder.AddOffset(10, thumbResourceOffset.Value, 0); }
-  public static void AddFullResource(FlatBufferBuilder builder, StringOffset fullResourceOffset) { builder.AddOffset(11, fullResourceOffset.Value, 0); }
-  public static void AddLocalizeEtcId(FlatBufferBuilder builder, uint localizeEtcId) { builder.AddUint(12, localizeEtcId, 0); }
-  public static void AddSubNameLocalizeCodeId(FlatBufferBuilder builder, StringOffset subNameLocalizeCodeIdOffset) { builder.AddOffset(13, subNameLocalizeCodeIdOffset.Value, 0); }
-  public static Offset<SCHALE.Common.FlatData.EventContentCollectionExcel> EndEventContentCollectionExcel(FlatBufferBuilder builder) {
+  public static void AddIsObjectOnFullResource(FlatBufferBuilder builder, bool isObjectOnFullResource) { builder.AddBool(8, isObjectOnFullResource, false); }
+  public static void AddIsHorizon(FlatBufferBuilder builder, bool isHorizon) { builder.AddBool(9, isHorizon, false); }
+  public static void AddEmblemResource(FlatBufferBuilder builder, StringOffset emblemResourceOffset) { builder.AddOffset(10, emblemResourceOffset.Value, 0); }
+  public static void AddThumbResource(FlatBufferBuilder builder, StringOffset thumbResourceOffset) { builder.AddOffset(11, thumbResourceOffset.Value, 0); }
+  public static void AddFullResource(FlatBufferBuilder builder, StringOffset fullResourceOffset) { builder.AddOffset(12, fullResourceOffset.Value, 0); }
+  public static void AddLocalizeEtcId(FlatBufferBuilder builder, uint localizeEtcId) { builder.AddUint(13, localizeEtcId, 0); }
+  public static void AddSubNameLocalizeCodeId(FlatBufferBuilder builder, StringOffset subNameLocalizeCodeIdOffset) { builder.AddOffset(14, subNameLocalizeCodeIdOffset.Value, 0); }
+  public static Offset<FlatData.EventContentCollectionExcel> EndEventContentCollectionExcel(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<SCHALE.Common.FlatData.EventContentCollectionExcel>(o);
+    return new Offset<FlatData.EventContentCollectionExcel>(o);
   }
   public EventContentCollectionExcelT UnPack() {
     var _o = new EventContentCollectionExcelT();
@@ -139,6 +143,7 @@ public struct EventContentCollectionExcel : IFlatbufferObject
     _o.MultipleConditionCheckType = TableEncryptionService.Convert(this.MultipleConditionCheckType, key);
     _o.UnlockConditionCount = TableEncryptionService.Convert(this.UnlockConditionCount, key);
     _o.IsObject = TableEncryptionService.Convert(this.IsObject, key);
+    _o.IsObjectOnFullResource = TableEncryptionService.Convert(this.IsObjectOnFullResource, key);
     _o.IsHorizon = TableEncryptionService.Convert(this.IsHorizon, key);
     _o.EmblemResource = TableEncryptionService.Convert(this.EmblemResource, key);
     _o.ThumbResource = TableEncryptionService.Convert(this.ThumbResource, key);
@@ -167,6 +172,7 @@ public struct EventContentCollectionExcel : IFlatbufferObject
       _o.MultipleConditionCheckType,
       _o.UnlockConditionCount,
       _o.IsObject,
+      _o.IsObjectOnFullResource,
       _o.IsHorizon,
       _EmblemResource,
       _ThumbResource,
@@ -181,11 +187,12 @@ public class EventContentCollectionExcelT
   public long Id { get; set; }
   public long EventContentId { get; set; }
   public long GroupId { get; set; }
-  public SCHALE.Common.FlatData.EventCollectionUnlockType UnlockConditionType { get; set; }
+  public SCHALE.Common.FlatData.CollectionUnlockType UnlockConditionType { get; set; }
   public List<long> UnlockConditionParameter { get; set; }
   public SCHALE.Common.FlatData.MultipleConditionCheckType MultipleConditionCheckType { get; set; }
   public long UnlockConditionCount { get; set; }
   public bool IsObject { get; set; }
+  public bool IsObjectOnFullResource { get; set; }
   public bool IsHorizon { get; set; }
   public string EmblemResource { get; set; }
   public string ThumbResource { get; set; }
@@ -197,11 +204,12 @@ public class EventContentCollectionExcelT
     this.Id = 0;
     this.EventContentId = 0;
     this.GroupId = 0;
-    this.UnlockConditionType = SCHALE.Common.FlatData.EventCollectionUnlockType.None;
+    this.UnlockConditionType = SCHALE.Common.FlatData.CollectionUnlockType.None;
     this.UnlockConditionParameter = null;
     this.MultipleConditionCheckType = SCHALE.Common.FlatData.MultipleConditionCheckType.And;
     this.UnlockConditionCount = 0;
     this.IsObject = false;
+    this.IsObjectOnFullResource = false;
     this.IsHorizon = false;
     this.EmblemResource = null;
     this.ThumbResource = null;
@@ -220,17 +228,18 @@ static public class EventContentCollectionExcelVerify
       && verifier.VerifyField(tablePos, 4 /*Id*/, 8 /*long*/, 8, false)
       && verifier.VerifyField(tablePos, 6 /*EventContentId*/, 8 /*long*/, 8, false)
       && verifier.VerifyField(tablePos, 8 /*GroupId*/, 8 /*long*/, 8, false)
-      && verifier.VerifyField(tablePos, 10 /*UnlockConditionType*/, 4 /*SCHALE.Common.FlatData.EventCollectionUnlockType*/, 4, false)
+      && verifier.VerifyField(tablePos, 10 /*UnlockConditionType*/, 4 /*FlatData.CollectionUnlockType*/, 4, false)
       && verifier.VerifyVectorOfData(tablePos, 12 /*UnlockConditionParameter*/, 8 /*long*/, false)
-      && verifier.VerifyField(tablePos, 14 /*MultipleConditionCheckType*/, 4 /*SCHALE.Common.FlatData.MultipleConditionCheckType*/, 4, false)
+      && verifier.VerifyField(tablePos, 14 /*MultipleConditionCheckType*/, 4 /*FlatData.MultipleConditionCheckType*/, 4, false)
       && verifier.VerifyField(tablePos, 16 /*UnlockConditionCount*/, 8 /*long*/, 8, false)
       && verifier.VerifyField(tablePos, 18 /*IsObject*/, 1 /*bool*/, 1, false)
-      && verifier.VerifyField(tablePos, 20 /*IsHorizon*/, 1 /*bool*/, 1, false)
-      && verifier.VerifyString(tablePos, 22 /*EmblemResource*/, false)
-      && verifier.VerifyString(tablePos, 24 /*ThumbResource*/, false)
-      && verifier.VerifyString(tablePos, 26 /*FullResource*/, false)
-      && verifier.VerifyField(tablePos, 28 /*LocalizeEtcId*/, 4 /*uint*/, 4, false)
-      && verifier.VerifyString(tablePos, 30 /*SubNameLocalizeCodeId*/, false)
+      && verifier.VerifyField(tablePos, 20 /*IsObjectOnFullResource*/, 1 /*bool*/, 1, false)
+      && verifier.VerifyField(tablePos, 22 /*IsHorizon*/, 1 /*bool*/, 1, false)
+      && verifier.VerifyString(tablePos, 24 /*EmblemResource*/, false)
+      && verifier.VerifyString(tablePos, 26 /*ThumbResource*/, false)
+      && verifier.VerifyString(tablePos, 28 /*FullResource*/, false)
+      && verifier.VerifyField(tablePos, 30 /*LocalizeEtcId*/, 4 /*uint*/, 4, false)
+      && verifier.VerifyString(tablePos, 32 /*SubNameLocalizeCodeId*/, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

@@ -29,7 +29,7 @@ public struct CostumeExcel : IFlatbufferObject
   public ArraySegment<byte>? GetDevNameBytes() { return __p.__vector_as_arraysegment(8); }
 #endif
   public byte[] GetDevNameArray() { return __p.__vector_as_array<byte>(8); }
-  public SCHALE.Common.FlatData.ProductionStep ProductionStep { get { int o = __p.__offset(10); return o != 0 ? (SCHALE.Common.FlatData.ProductionStep)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.ProductionStep.ToDo; } }
+  public FlatData.ProductionStep ProductionStep { get { int o = __p.__offset(10); return o != 0 ? (FlatData.ProductionStep)__p.bb.GetInt(o + __p.bb_pos) : FlatData.ProductionStep.ToDo; } }
   public bool IsDefault { get { int o = __p.__offset(12); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
   public bool CollectionVisible { get { int o = __p.__offset(14); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
   public string ReleaseDate { get { int o = __p.__offset(16); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
@@ -53,7 +53,7 @@ public struct CostumeExcel : IFlatbufferObject
   public ArraySegment<byte>? GetCollectionVisibleEndDateBytes() { return __p.__vector_as_arraysegment(20); }
 #endif
   public byte[] GetCollectionVisibleEndDateArray() { return __p.__vector_as_array<byte>(20); }
-  public SCHALE.Common.FlatData.Rarity Rarity { get { int o = __p.__offset(22); return o != 0 ? (SCHALE.Common.FlatData.Rarity)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.Rarity.N; } }
+  public FlatData.Rarity Rarity { get { int o = __p.__offset(22); return o != 0 ? (FlatData.Rarity)__p.bb.GetInt(o + __p.bb_pos) : FlatData.Rarity.N; } }
   public long CharacterSkillListGroupId { get { int o = __p.__offset(24); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
   public string SpineResourceName { get { int o = __p.__offset(26); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
@@ -71,7 +71,7 @@ public struct CostumeExcel : IFlatbufferObject
   public byte[] GetSpineResourceNameDioramaArray() { return __p.__vector_as_array<byte>(28); }
   public string SpineResourceNameDioramaForFormConversion(int j) { int o = __p.__offset(30); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
   public int SpineResourceNameDioramaForFormConversionLength { get { int o = __p.__offset(30); return o != 0 ? __p.__vector_len(o) : 0; } }
-  public SCHALE.Common.FlatData.EntityMaterialType EntityMaterialType { get { int o = __p.__offset(32); return o != 0 ? (SCHALE.Common.FlatData.EntityMaterialType)__p.bb.GetInt(o + __p.bb_pos) : SCHALE.Common.FlatData.EntityMaterialType.Wood; } }
+  public FlatData.EntityMaterialType EntityMaterialType { get { int o = __p.__offset(32); return o != 0 ? (FlatData.EntityMaterialType)__p.bb.GetInt(o + __p.bb_pos) : FlatData.EntityMaterialType.Wood; } }
   public string ModelPrefabName { get { int o = __p.__offset(34); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
   public Span<byte> GetModelPrefabNameBytes() { return __p.__vector_as_span<byte>(34, 1); }
@@ -121,56 +121,64 @@ public struct CostumeExcel : IFlatbufferObject
   public ArraySegment<byte>? GetCollectionBGTexturePathBytes() { return __p.__vector_as_arraysegment(46); }
 #endif
   public byte[] GetCollectionBGTexturePathArray() { return __p.__vector_as_array<byte>(46); }
-  public bool UseObjectHPBAR { get { int o = __p.__offset(48); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public string TextureBoss { get { int o = __p.__offset(50); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public string CombatStyleTexturePath { get { int o = __p.__offset(48); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetTextureBossBytes() { return __p.__vector_as_span<byte>(50, 1); }
+  public Span<byte> GetCombatStyleTexturePathBytes() { return __p.__vector_as_span<byte>(48, 1); }
 #else
-  public ArraySegment<byte>? GetTextureBossBytes() { return __p.__vector_as_arraysegment(50); }
+  public ArraySegment<byte>? GetCombatStyleTexturePathBytes() { return __p.__vector_as_arraysegment(48); }
 #endif
-  public byte[] GetTextureBossArray() { return __p.__vector_as_array<byte>(50); }
-  public string TextureSkillCard(int j) { int o = __p.__offset(52); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
-  public int TextureSkillCardLength { get { int o = __p.__offset(52); return o != 0 ? __p.__vector_len(o) : 0; } }
-  public string InformationPacel { get { int o = __p.__offset(54); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetCombatStyleTexturePathArray() { return __p.__vector_as_array<byte>(48); }
+  public bool UseObjectHPBAR { get { int o = __p.__offset(50); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public string TextureBoss { get { int o = __p.__offset(52); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetInformationPacelBytes() { return __p.__vector_as_span<byte>(54, 1); }
+  public Span<byte> GetTextureBossBytes() { return __p.__vector_as_span<byte>(52, 1); }
 #else
-  public ArraySegment<byte>? GetInformationPacelBytes() { return __p.__vector_as_arraysegment(54); }
+  public ArraySegment<byte>? GetTextureBossBytes() { return __p.__vector_as_arraysegment(52); }
 #endif
-  public byte[] GetInformationPacelArray() { return __p.__vector_as_array<byte>(54); }
-  public string AnimationSSR { get { int o = __p.__offset(56); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetTextureBossArray() { return __p.__vector_as_array<byte>(52); }
+  public string TextureSkillCard(int j) { int o = __p.__offset(54); return o != 0 ? __p.__string(__p.__vector(o) + j * 4) : null; }
+  public int TextureSkillCardLength { get { int o = __p.__offset(54); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public string InformationPacel { get { int o = __p.__offset(56); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAnimationSSRBytes() { return __p.__vector_as_span<byte>(56, 1); }
+  public Span<byte> GetInformationPacelBytes() { return __p.__vector_as_span<byte>(56, 1); }
 #else
-  public ArraySegment<byte>? GetAnimationSSRBytes() { return __p.__vector_as_arraysegment(56); }
+  public ArraySegment<byte>? GetInformationPacelBytes() { return __p.__vector_as_arraysegment(56); }
 #endif
-  public byte[] GetAnimationSSRArray() { return __p.__vector_as_array<byte>(56); }
-  public string EnterStrategyAnimationName { get { int o = __p.__offset(58); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetInformationPacelArray() { return __p.__vector_as_array<byte>(56); }
+  public string AnimationSSR { get { int o = __p.__offset(58); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetEnterStrategyAnimationNameBytes() { return __p.__vector_as_span<byte>(58, 1); }
+  public Span<byte> GetAnimationSSRBytes() { return __p.__vector_as_span<byte>(58, 1); }
 #else
-  public ArraySegment<byte>? GetEnterStrategyAnimationNameBytes() { return __p.__vector_as_arraysegment(58); }
+  public ArraySegment<byte>? GetAnimationSSRBytes() { return __p.__vector_as_arraysegment(58); }
 #endif
-  public byte[] GetEnterStrategyAnimationNameArray() { return __p.__vector_as_array<byte>(58); }
-  public bool AnimationValidator { get { int o = __p.__offset(60); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public long CharacterVoiceGroupId { get { int o = __p.__offset(62); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
+  public byte[] GetAnimationSSRArray() { return __p.__vector_as_array<byte>(58); }
+  public string EnterStrategyAnimationName { get { int o = __p.__offset(60); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+#if ENABLE_SPAN_T
+  public Span<byte> GetEnterStrategyAnimationNameBytes() { return __p.__vector_as_span<byte>(60, 1); }
+#else
+  public ArraySegment<byte>? GetEnterStrategyAnimationNameBytes() { return __p.__vector_as_arraysegment(60); }
+#endif
+  public byte[] GetEnterStrategyAnimationNameArray() { return __p.__vector_as_array<byte>(60); }
+  public bool AnimationValidator { get { int o = __p.__offset(62); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public long CharacterVoiceGroupId { get { int o = __p.__offset(64); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
+  public bool ShowObjectHpStatus { get { int o = __p.__offset(66); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
 
-  public static Offset<SCHALE.Common.FlatData.CostumeExcel> CreateCostumeExcel(FlatBufferBuilder builder,
+  public static Offset<FlatData.CostumeExcel> CreateCostumeExcel(FlatBufferBuilder builder,
       long CostumeGroupId = 0,
       long CostumeUniqueId = 0,
       StringOffset DevNameOffset = default(StringOffset),
-      SCHALE.Common.FlatData.ProductionStep ProductionStep = SCHALE.Common.FlatData.ProductionStep.ToDo,
+      FlatData.ProductionStep ProductionStep = FlatData.ProductionStep.ToDo,
       bool IsDefault = false,
       bool CollectionVisible = false,
       StringOffset ReleaseDateOffset = default(StringOffset),
       StringOffset CollectionVisibleStartDateOffset = default(StringOffset),
       StringOffset CollectionVisibleEndDateOffset = default(StringOffset),
-      SCHALE.Common.FlatData.Rarity Rarity = SCHALE.Common.FlatData.Rarity.N,
+      FlatData.Rarity Rarity = FlatData.Rarity.N,
       long CharacterSkillListGroupId = 0,
       StringOffset SpineResourceNameOffset = default(StringOffset),
       StringOffset SpineResourceNameDioramaOffset = default(StringOffset),
       VectorOffset SpineResourceNameDioramaForFormConversionOffset = default(VectorOffset),
-      SCHALE.Common.FlatData.EntityMaterialType EntityMaterialType = SCHALE.Common.FlatData.EntityMaterialType.Wood,
+      FlatData.EntityMaterialType EntityMaterialType = FlatData.EntityMaterialType.Wood,
       StringOffset ModelPrefabNameOffset = default(StringOffset),
       StringOffset CafeModelPrefabNameOffset = default(StringOffset),
       StringOffset EchelonModelPrefabNameOffset = default(StringOffset),
@@ -178,6 +186,7 @@ public struct CostumeExcel : IFlatbufferObject
       StringOffset TextureDirOffset = default(StringOffset),
       StringOffset CollectionTexturePathOffset = default(StringOffset),
       StringOffset CollectionBGTexturePathOffset = default(StringOffset),
+      StringOffset CombatStyleTexturePathOffset = default(StringOffset),
       bool UseObjectHPBAR = false,
       StringOffset TextureBossOffset = default(StringOffset),
       VectorOffset TextureSkillCardOffset = default(VectorOffset),
@@ -185,8 +194,9 @@ public struct CostumeExcel : IFlatbufferObject
       StringOffset AnimationSSROffset = default(StringOffset),
       StringOffset EnterStrategyAnimationNameOffset = default(StringOffset),
       bool AnimationValidator = false,
-      long CharacterVoiceGroupId = 0) {
-    builder.StartTable(30);
+      long CharacterVoiceGroupId = 0,
+      bool ShowObjectHpStatus = false) {
+    builder.StartTable(32);
     CostumeExcel.AddCharacterVoiceGroupId(builder, CharacterVoiceGroupId);
     CostumeExcel.AddCharacterSkillListGroupId(builder, CharacterSkillListGroupId);
     CostumeExcel.AddCostumeUniqueId(builder, CostumeUniqueId);
@@ -196,6 +206,7 @@ public struct CostumeExcel : IFlatbufferObject
     CostumeExcel.AddInformationPacel(builder, InformationPacelOffset);
     CostumeExcel.AddTextureSkillCard(builder, TextureSkillCardOffset);
     CostumeExcel.AddTextureBoss(builder, TextureBossOffset);
+    CostumeExcel.AddCombatStyleTexturePath(builder, CombatStyleTexturePathOffset);
     CostumeExcel.AddCollectionBGTexturePath(builder, CollectionBGTexturePathOffset);
     CostumeExcel.AddCollectionTexturePath(builder, CollectionTexturePathOffset);
     CostumeExcel.AddTextureDir(builder, TextureDirOffset);
@@ -213,6 +224,7 @@ public struct CostumeExcel : IFlatbufferObject
     CostumeExcel.AddReleaseDate(builder, ReleaseDateOffset);
     CostumeExcel.AddProductionStep(builder, ProductionStep);
     CostumeExcel.AddDevName(builder, DevNameOffset);
+    CostumeExcel.AddShowObjectHpStatus(builder, ShowObjectHpStatus);
     CostumeExcel.AddAnimationValidator(builder, AnimationValidator);
     CostumeExcel.AddUseObjectHPBAR(builder, UseObjectHPBAR);
     CostumeExcel.AddCollectionVisible(builder, CollectionVisible);
@@ -220,17 +232,17 @@ public struct CostumeExcel : IFlatbufferObject
     return CostumeExcel.EndCostumeExcel(builder);
   }
 
-  public static void StartCostumeExcel(FlatBufferBuilder builder) { builder.StartTable(30); }
+public static void StartCostumeExcel(FlatBufferBuilder builder) { builder.StartTable(32); }
   public static void AddCostumeGroupId(FlatBufferBuilder builder, long costumeGroupId) { builder.AddLong(0, costumeGroupId, 0); }
   public static void AddCostumeUniqueId(FlatBufferBuilder builder, long costumeUniqueId) { builder.AddLong(1, costumeUniqueId, 0); }
   public static void AddDevName(FlatBufferBuilder builder, StringOffset devNameOffset) { builder.AddOffset(2, devNameOffset.Value, 0); }
-  public static void AddProductionStep(FlatBufferBuilder builder, SCHALE.Common.FlatData.ProductionStep productionStep) { builder.AddInt(3, (int)productionStep, 0); }
+  public static void AddProductionStep(FlatBufferBuilder builder, FlatData.ProductionStep productionStep) { builder.AddInt(3, (int)productionStep, 0); }
   public static void AddIsDefault(FlatBufferBuilder builder, bool isDefault) { builder.AddBool(4, isDefault, false); }
   public static void AddCollectionVisible(FlatBufferBuilder builder, bool collectionVisible) { builder.AddBool(5, collectionVisible, false); }
   public static void AddReleaseDate(FlatBufferBuilder builder, StringOffset releaseDateOffset) { builder.AddOffset(6, releaseDateOffset.Value, 0); }
   public static void AddCollectionVisibleStartDate(FlatBufferBuilder builder, StringOffset collectionVisibleStartDateOffset) { builder.AddOffset(7, collectionVisibleStartDateOffset.Value, 0); }
   public static void AddCollectionVisibleEndDate(FlatBufferBuilder builder, StringOffset collectionVisibleEndDateOffset) { builder.AddOffset(8, collectionVisibleEndDateOffset.Value, 0); }
-  public static void AddRarity(FlatBufferBuilder builder, SCHALE.Common.FlatData.Rarity rarity) { builder.AddInt(9, (int)rarity, 0); }
+  public static void AddRarity(FlatBufferBuilder builder, FlatData.Rarity rarity) { builder.AddInt(9, (int)rarity, 0); }
   public static void AddCharacterSkillListGroupId(FlatBufferBuilder builder, long characterSkillListGroupId) { builder.AddLong(10, characterSkillListGroupId, 0); }
   public static void AddSpineResourceName(FlatBufferBuilder builder, StringOffset spineResourceNameOffset) { builder.AddOffset(11, spineResourceNameOffset.Value, 0); }
   public static void AddSpineResourceNameDiorama(FlatBufferBuilder builder, StringOffset spineResourceNameDioramaOffset) { builder.AddOffset(12, spineResourceNameDioramaOffset.Value, 0); }
@@ -240,7 +252,7 @@ public struct CostumeExcel : IFlatbufferObject
   public static VectorOffset CreateSpineResourceNameDioramaForFormConversionVectorBlock(FlatBufferBuilder builder, ArraySegment<StringOffset> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateSpineResourceNameDioramaForFormConversionVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<StringOffset>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartSpineResourceNameDioramaForFormConversionVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddEntityMaterialType(FlatBufferBuilder builder, SCHALE.Common.FlatData.EntityMaterialType entityMaterialType) { builder.AddInt(14, (int)entityMaterialType, 0); }
+  public static void AddEntityMaterialType(FlatBufferBuilder builder, FlatData.EntityMaterialType entityMaterialType) { builder.AddInt(14, (int)entityMaterialType, 0); }
   public static void AddModelPrefabName(FlatBufferBuilder builder, StringOffset modelPrefabNameOffset) { builder.AddOffset(15, modelPrefabNameOffset.Value, 0); }
   public static void AddCafeModelPrefabName(FlatBufferBuilder builder, StringOffset cafeModelPrefabNameOffset) { builder.AddOffset(16, cafeModelPrefabNameOffset.Value, 0); }
   public static void AddEchelonModelPrefabName(FlatBufferBuilder builder, StringOffset echelonModelPrefabNameOffset) { builder.AddOffset(17, echelonModelPrefabNameOffset.Value, 0); }
@@ -248,22 +260,24 @@ public struct CostumeExcel : IFlatbufferObject
   public static void AddTextureDir(FlatBufferBuilder builder, StringOffset textureDirOffset) { builder.AddOffset(19, textureDirOffset.Value, 0); }
   public static void AddCollectionTexturePath(FlatBufferBuilder builder, StringOffset collectionTexturePathOffset) { builder.AddOffset(20, collectionTexturePathOffset.Value, 0); }
   public static void AddCollectionBGTexturePath(FlatBufferBuilder builder, StringOffset collectionBGTexturePathOffset) { builder.AddOffset(21, collectionBGTexturePathOffset.Value, 0); }
-  public static void AddUseObjectHPBAR(FlatBufferBuilder builder, bool useObjectHPBAR) { builder.AddBool(22, useObjectHPBAR, false); }
-  public static void AddTextureBoss(FlatBufferBuilder builder, StringOffset textureBossOffset) { builder.AddOffset(23, textureBossOffset.Value, 0); }
-  public static void AddTextureSkillCard(FlatBufferBuilder builder, VectorOffset textureSkillCardOffset) { builder.AddOffset(24, textureSkillCardOffset.Value, 0); }
+  public static void AddCombatStyleTexturePath(FlatBufferBuilder builder, StringOffset combatStyleTexturePathOffset) { builder.AddOffset(22, combatStyleTexturePathOffset.Value, 0); }
+  public static void AddUseObjectHPBAR(FlatBufferBuilder builder, bool useObjectHPBAR) { builder.AddBool(23, useObjectHPBAR, false); }
+  public static void AddTextureBoss(FlatBufferBuilder builder, StringOffset textureBossOffset) { builder.AddOffset(24, textureBossOffset.Value, 0); }
+  public static void AddTextureSkillCard(FlatBufferBuilder builder, VectorOffset textureSkillCardOffset) { builder.AddOffset(25, textureSkillCardOffset.Value, 0); }
   public static VectorOffset CreateTextureSkillCardVector(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
   public static VectorOffset CreateTextureSkillCardVectorBlock(FlatBufferBuilder builder, StringOffset[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateTextureSkillCardVectorBlock(FlatBufferBuilder builder, ArraySegment<StringOffset> data) { builder.StartVector(4, data.Count, 4); builder.Add(data); return builder.EndVector(); }
   public static VectorOffset CreateTextureSkillCardVectorBlock(FlatBufferBuilder builder, IntPtr dataPtr, int sizeInBytes) { builder.StartVector(1, sizeInBytes, 1); builder.Add<StringOffset>(dataPtr, sizeInBytes); return builder.EndVector(); }
   public static void StartTextureSkillCardVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static void AddInformationPacel(FlatBufferBuilder builder, StringOffset informationPacelOffset) { builder.AddOffset(25, informationPacelOffset.Value, 0); }
-  public static void AddAnimationSSR(FlatBufferBuilder builder, StringOffset animationSSROffset) { builder.AddOffset(26, animationSSROffset.Value, 0); }
-  public static void AddEnterStrategyAnimationName(FlatBufferBuilder builder, StringOffset enterStrategyAnimationNameOffset) { builder.AddOffset(27, enterStrategyAnimationNameOffset.Value, 0); }
-  public static void AddAnimationValidator(FlatBufferBuilder builder, bool animationValidator) { builder.AddBool(28, animationValidator, false); }
-  public static void AddCharacterVoiceGroupId(FlatBufferBuilder builder, long characterVoiceGroupId) { builder.AddLong(29, characterVoiceGroupId, 0); }
-  public static Offset<SCHALE.Common.FlatData.CostumeExcel> EndCostumeExcel(FlatBufferBuilder builder) {
+  public static void AddInformationPacel(FlatBufferBuilder builder, StringOffset informationPacelOffset) { builder.AddOffset(26, informationPacelOffset.Value, 0); }
+  public static void AddAnimationSSR(FlatBufferBuilder builder, StringOffset animationSSROffset) { builder.AddOffset(27, animationSSROffset.Value, 0); }
+  public static void AddEnterStrategyAnimationName(FlatBufferBuilder builder, StringOffset enterStrategyAnimationNameOffset) { builder.AddOffset(28, enterStrategyAnimationNameOffset.Value, 0); }
+  public static void AddAnimationValidator(FlatBufferBuilder builder, bool animationValidator) { builder.AddBool(29, animationValidator, false); }
+  public static void AddCharacterVoiceGroupId(FlatBufferBuilder builder, long characterVoiceGroupId) { builder.AddLong(30, characterVoiceGroupId, 0); }
+  public static void AddShowObjectHpStatus(FlatBufferBuilder builder, bool showObjectHpStatus) { builder.AddBool(31, showObjectHpStatus, false); }
+  public static Offset<FlatData.CostumeExcel> EndCostumeExcel(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<SCHALE.Common.FlatData.CostumeExcel>(o);
+    return new Offset<FlatData.CostumeExcel>(o);
   }
   public CostumeExcelT UnPack() {
     var _o = new CostumeExcelT();
@@ -295,6 +309,7 @@ public struct CostumeExcel : IFlatbufferObject
     _o.TextureDir = TableEncryptionService.Convert(this.TextureDir, key);
     _o.CollectionTexturePath = TableEncryptionService.Convert(this.CollectionTexturePath, key);
     _o.CollectionBGTexturePath = TableEncryptionService.Convert(this.CollectionBGTexturePath, key);
+    _o.CombatStyleTexturePath = TableEncryptionService.Convert(this.CombatStyleTexturePath, key);
     _o.UseObjectHPBAR = TableEncryptionService.Convert(this.UseObjectHPBAR, key);
     _o.TextureBoss = TableEncryptionService.Convert(this.TextureBoss, key);
     _o.TextureSkillCard = new List<string>();
@@ -304,6 +319,7 @@ public struct CostumeExcel : IFlatbufferObject
     _o.EnterStrategyAnimationName = TableEncryptionService.Convert(this.EnterStrategyAnimationName, key);
     _o.AnimationValidator = TableEncryptionService.Convert(this.AnimationValidator, key);
     _o.CharacterVoiceGroupId = TableEncryptionService.Convert(this.CharacterVoiceGroupId, key);
+    _o.ShowObjectHpStatus = TableEncryptionService.Convert(this.ShowObjectHpStatus, key);
   }
   public static Offset<SCHALE.Common.FlatData.CostumeExcel> Pack(FlatBufferBuilder builder, CostumeExcelT _o) {
     if (_o == null) return default(Offset<SCHALE.Common.FlatData.CostumeExcel>);
@@ -326,6 +342,7 @@ public struct CostumeExcel : IFlatbufferObject
     var _TextureDir = _o.TextureDir == null ? default(StringOffset) : builder.CreateString(_o.TextureDir);
     var _CollectionTexturePath = _o.CollectionTexturePath == null ? default(StringOffset) : builder.CreateString(_o.CollectionTexturePath);
     var _CollectionBGTexturePath = _o.CollectionBGTexturePath == null ? default(StringOffset) : builder.CreateString(_o.CollectionBGTexturePath);
+    var _CombatStyleTexturePath = _o.CombatStyleTexturePath == null ? default(StringOffset) : builder.CreateString(_o.CombatStyleTexturePath);
     var _TextureBoss = _o.TextureBoss == null ? default(StringOffset) : builder.CreateString(_o.TextureBoss);
     var _TextureSkillCard = default(VectorOffset);
     if (_o.TextureSkillCard != null) {
@@ -360,6 +377,7 @@ public struct CostumeExcel : IFlatbufferObject
       _TextureDir,
       _CollectionTexturePath,
       _CollectionBGTexturePath,
+      _CombatStyleTexturePath,
       _o.UseObjectHPBAR,
       _TextureBoss,
       _TextureSkillCard,
@@ -367,7 +385,8 @@ public struct CostumeExcel : IFlatbufferObject
       _AnimationSSR,
       _EnterStrategyAnimationName,
       _o.AnimationValidator,
-      _o.CharacterVoiceGroupId);
+      _o.CharacterVoiceGroupId,
+      _o.ShowObjectHpStatus);
   }
 }
 
@@ -395,6 +414,7 @@ public class CostumeExcelT
   public string TextureDir { get; set; }
   public string CollectionTexturePath { get; set; }
   public string CollectionBGTexturePath { get; set; }
+  public string CombatStyleTexturePath { get; set; }
   public bool UseObjectHPBAR { get; set; }
   public string TextureBoss { get; set; }
   public List<string> TextureSkillCard { get; set; }
@@ -403,6 +423,7 @@ public class CostumeExcelT
   public string EnterStrategyAnimationName { get; set; }
   public bool AnimationValidator { get; set; }
   public long CharacterVoiceGroupId { get; set; }
+  public bool ShowObjectHpStatus { get; set; }
 
   public CostumeExcelT() {
     this.CostumeGroupId = 0;
@@ -427,6 +448,7 @@ public class CostumeExcelT
     this.TextureDir = null;
     this.CollectionTexturePath = null;
     this.CollectionBGTexturePath = null;
+    this.CombatStyleTexturePath = null;
     this.UseObjectHPBAR = false;
     this.TextureBoss = null;
     this.TextureSkillCard = null;
@@ -435,6 +457,7 @@ public class CostumeExcelT
     this.EnterStrategyAnimationName = null;
     this.AnimationValidator = false;
     this.CharacterVoiceGroupId = 0;
+    this.ShowObjectHpStatus = false;
   }
 }
 
@@ -447,18 +470,18 @@ static public class CostumeExcelVerify
       && verifier.VerifyField(tablePos, 4 /*CostumeGroupId*/, 8 /*long*/, 8, false)
       && verifier.VerifyField(tablePos, 6 /*CostumeUniqueId*/, 8 /*long*/, 8, false)
       && verifier.VerifyString(tablePos, 8 /*DevName*/, false)
-      && verifier.VerifyField(tablePos, 10 /*ProductionStep*/, 4 /*SCHALE.Common.FlatData.ProductionStep*/, 4, false)
+      && verifier.VerifyField(tablePos, 10 /*ProductionStep*/, 4 /*FlatData.ProductionStep*/, 4, false)
       && verifier.VerifyField(tablePos, 12 /*IsDefault*/, 1 /*bool*/, 1, false)
       && verifier.VerifyField(tablePos, 14 /*CollectionVisible*/, 1 /*bool*/, 1, false)
       && verifier.VerifyString(tablePos, 16 /*ReleaseDate*/, false)
       && verifier.VerifyString(tablePos, 18 /*CollectionVisibleStartDate*/, false)
       && verifier.VerifyString(tablePos, 20 /*CollectionVisibleEndDate*/, false)
-      && verifier.VerifyField(tablePos, 22 /*Rarity*/, 4 /*SCHALE.Common.FlatData.Rarity*/, 4, false)
+      && verifier.VerifyField(tablePos, 22 /*Rarity*/, 4 /*FlatData.Rarity*/, 4, false)
       && verifier.VerifyField(tablePos, 24 /*CharacterSkillListGroupId*/, 8 /*long*/, 8, false)
       && verifier.VerifyString(tablePos, 26 /*SpineResourceName*/, false)
       && verifier.VerifyString(tablePos, 28 /*SpineResourceNameDiorama*/, false)
       && verifier.VerifyVectorOfStrings(tablePos, 30 /*SpineResourceNameDioramaForFormConversion*/, false)
-      && verifier.VerifyField(tablePos, 32 /*EntityMaterialType*/, 4 /*SCHALE.Common.FlatData.EntityMaterialType*/, 4, false)
+      && verifier.VerifyField(tablePos, 32 /*EntityMaterialType*/, 4 /*FlatData.EntityMaterialType*/, 4, false)
       && verifier.VerifyString(tablePos, 34 /*ModelPrefabName*/, false)
       && verifier.VerifyString(tablePos, 36 /*CafeModelPrefabName*/, false)
       && verifier.VerifyString(tablePos, 38 /*EchelonModelPrefabName*/, false)
@@ -466,14 +489,16 @@ static public class CostumeExcelVerify
       && verifier.VerifyString(tablePos, 42 /*TextureDir*/, false)
       && verifier.VerifyString(tablePos, 44 /*CollectionTexturePath*/, false)
       && verifier.VerifyString(tablePos, 46 /*CollectionBGTexturePath*/, false)
-      && verifier.VerifyField(tablePos, 48 /*UseObjectHPBAR*/, 1 /*bool*/, 1, false)
-      && verifier.VerifyString(tablePos, 50 /*TextureBoss*/, false)
-      && verifier.VerifyVectorOfStrings(tablePos, 52 /*TextureSkillCard*/, false)
-      && verifier.VerifyString(tablePos, 54 /*InformationPacel*/, false)
-      && verifier.VerifyString(tablePos, 56 /*AnimationSSR*/, false)
-      && verifier.VerifyString(tablePos, 58 /*EnterStrategyAnimationName*/, false)
-      && verifier.VerifyField(tablePos, 60 /*AnimationValidator*/, 1 /*bool*/, 1, false)
-      && verifier.VerifyField(tablePos, 62 /*CharacterVoiceGroupId*/, 8 /*long*/, 8, false)
+      && verifier.VerifyString(tablePos, 48 /*CombatStyleTexturePath*/, false)
+      && verifier.VerifyField(tablePos, 50 /*UseObjectHPBAR*/, 1 /*bool*/, 1, false)
+      && verifier.VerifyString(tablePos, 52 /*TextureBoss*/, false)
+      && verifier.VerifyVectorOfStrings(tablePos, 54 /*TextureSkillCard*/, false)
+      && verifier.VerifyString(tablePos, 56 /*InformationPacel*/, false)
+      && verifier.VerifyString(tablePos, 58 /*AnimationSSR*/, false)
+      && verifier.VerifyString(tablePos, 60 /*EnterStrategyAnimationName*/, false)
+      && verifier.VerifyField(tablePos, 62 /*AnimationValidator*/, 1 /*bool*/, 1, false)
+      && verifier.VerifyField(tablePos, 64 /*CharacterVoiceGroupId*/, 8 /*long*/, 8, false)
+      && verifier.VerifyField(tablePos, 66 /*ShowObjectHpStatus*/, 1 /*bool*/, 1, false)
       && verifier.VerifyTableEnd(tablePos);
   }
 }

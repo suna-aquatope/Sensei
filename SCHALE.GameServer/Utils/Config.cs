@@ -14,7 +14,7 @@ namespace SCHALE.GameServer.Utils
         public string IRCAddress { get; set; } = "127.0.0.1";
         public int IRCPort { get; set; } = 6667;
 
-        public string VersionId { get; set; } = "r67_utfwo6vcvx7rhl017phc";
+        public string VersionId { get; set; } = "r71_ino0ujbimctl1kytmt8h_2";
 
         public static void Load()
         {
