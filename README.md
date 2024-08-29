@@ -18,7 +18,7 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ---
 
-- Week Dungeon (Bounty)
+- Week Dungeon (Bounty), School Dungeon(Scrimmage)
 
 ![image](https://github.com/user-attachments/assets/0c773325-00b2-48fb-b24d-b617f40352cd)
 
