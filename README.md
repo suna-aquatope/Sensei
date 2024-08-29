@@ -12,6 +12,28 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ### Implemented features
 
+- Support for loading excel of latest version of game
+
+![image](https://github.com/user-attachments/assets/2487164d-b56b-433b-a500-c6bd670c4f59)
+
+If you have ever used the “/character add all” command, you will notice that recently implemented characters are not added
+
+This is because the server cannot read the latest excel files, so it downloads and uses old game files
+
+The server doesn't know the new character exists because it is loading an older version of the file
+
+This fork supports loading the latest excel files, so you can properly add the latest characters with the add all command
+
+---
+
+Currently adding memory lobby by executing "/inventory addall" command does not work
+
+because excel.zip of latest version of game doesn't have MemoryLobbyExcel.bytes
+
+Under investigation and will resolve as soon as possible
+
+---
+
 - Fixed Gacha
 
 ![image](https://github.com/user-attachments/assets/30f12db7-5405-4a11-9576-6a71ddb9c54f)
@@ -53,3 +75,7 @@ currencyId can be found at [SCHALE.Common/FlatData/CurrencyTypes.cs](https://git
 ![image](https://github.com/user-attachments/assets/4f8cf801-79a8-4712-b009-098aa55d9dd9)
 
 As you can see, you can enter cafe, but it is broken
+
+## Special Thanks
+
+- K0lb3 - Author of Flatbuffer schema generator
