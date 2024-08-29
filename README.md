@@ -28,7 +28,7 @@ This fork supports loading the latest excel files, so you can properly add the l
 
 Currently adding memory lobby by executing "/inventory addall" command does not work
 
-because excel.zip of latest version of game doesn't have MemoryLobbyExcel.bytes
+This is because Excel.zip of latest version of game doesn't have MemoryLobbyExcelTable.bytes
 
 Under investigation and will resolve as soon as possible
 
