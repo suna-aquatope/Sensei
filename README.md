@@ -75,3 +75,7 @@ currencyId can be found at [SCHALE.Common/FlatData/CurrencyTypes.cs](https://git
 ![image](https://github.com/user-attachments/assets/4f8cf801-79a8-4712-b009-098aa55d9dd9)
 
 As you can see, you can enter cafe, but it is broken
+
+## Special Thanks
+
+- K0lb3 - Author of Flatbuffer schema generator
