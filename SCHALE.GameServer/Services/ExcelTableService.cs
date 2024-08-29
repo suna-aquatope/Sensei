@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Data.SQLite;
+using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -20,11 +21,13 @@ namespace SCHALE.GameServer.Services
         public static async Task LoadExcels(string excelDirectory = "")
         {
             var excelZipUrl = $"https://prod-clientpatch.bluearchiveyostar.com/{Config.Instance.VersionId}/TableBundles/Excel.zip";
-            
+            var excelDbUrl = $"https://prod-clientpatch.bluearchiveyostar.com/{Config.Instance.VersionId}/TableBundles/ExcelDB.db";
+
             var excelDir = string.IsNullOrWhiteSpace(excelDirectory) 
                 ? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "Resources/excel")
                 : excelDirectory;
             var excelZipPath = Path.Combine(excelDir, "Excel.zip");
+            var excelDbPath = Path.Combine(excelDir, "ExcelDB.db");
 
             if (Directory.Exists(excelDir))
             {
@@ -32,13 +35,18 @@ namespace SCHALE.GameServer.Services
                 return;
             }
             
-            Log.Information("Downloading Excels...");
             Directory.CreateDirectory(excelDir);
-
             using var client = new HttpClient();
-            var zipBytes = await client.GetByteArrayAsync(excelZipUrl);
 
+            // Download Excel.zip
+            Log.Information("Downloading Excel.zip...");
+            var zipBytes = await client.GetByteArrayAsync(excelZipUrl);
             File.WriteAllBytes(excelZipPath, zipBytes);
+
+            // Download ExcelDB.db
+            Log.Information("Downloading ExcelDB.db...");
+            var dbBytes = await client.GetByteArrayAsync(excelDbUrl);
+            File.WriteAllBytes(excelDbPath, dbBytes);
 
             using (var zip = ZipFile.Read(excelZipPath)) {
                 zip.Password = Convert.ToBase64String(TableService.CreatePassword(Path.GetFileName(excelZipPath)));
@@ -85,6 +93,28 @@ namespace SCHALE.GameServer.Services
             logger.LogDebug("{Excel} loaded and cached", type.Name);
 
             return (T)inst!;
+        }
+
+        public List<T> GetExcelList<T>(string schema)
+        {
+            var excelList = new List<T>();
+            var type = typeof(T);
+            using (var dbConnection = new SQLiteConnection($"Data Source = {Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "Resources/excel", "ExcelDB.db")}"))
+            {
+                dbConnection.Open();
+                var command = dbConnection.CreateCommand();
+                command.CommandText = $"SELECT Bytes FROM {schema}";
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        excelList.Add( (T)type.GetMethod( $"GetRootAs{type.Name}", BindingFlags.Static | BindingFlags.Public, [typeof(ByteBuffer)] )!
+                            .Invoke( null, [ new ByteBuffer( (byte[])reader[0] ) ] ));
+                    }
+                }
+            }
+
+            return excelList;
         }
     }
 
