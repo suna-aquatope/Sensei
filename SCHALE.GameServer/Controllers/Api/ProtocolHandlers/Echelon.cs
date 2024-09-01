@@ -25,7 +25,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
 
-            return new EchelonListResponse() { EchelonDBs = [.. account.Echelons] };
+            return new EchelonListResponse() { EchelonDBs = [.. account.Echelons], ArenaEchelonDB = new() };
         }
 
         [ProtocolHandler(Protocol.Echelon_Save)]

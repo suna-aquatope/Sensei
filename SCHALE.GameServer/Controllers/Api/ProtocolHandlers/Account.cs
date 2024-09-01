@@ -193,11 +193,14 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 .Where(x => x.ParcelType == ParcelType.Currency)
                 .ToList();
 
-            AccountCurrencyDB accountCurrency = new();
-            accountCurrency.AccountServerId = account.ServerId;
-            accountCurrency.AccountLevel = 1;
-            accountCurrency.AcademyLocationRankSum = 1;
-            accountCurrency.CurrencyDict = new();
+            AccountCurrencyDB accountCurrency = new()
+            {
+                AccountServerId = account.ServerId,
+                AccountLevel = 1,
+                AcademyLocationRankSum = 1,
+                CurrencyDict = new()
+            };
+
             foreach(var currencyType in Enum.GetValues(typeof(CurrencyTypes)).Cast<CurrencyTypes>())
             {
                 if(currencyType == CurrencyTypes.Invalid)
@@ -283,24 +286,6 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             {
                 account.RepresentCharacterServerId = (int)
                     newCharacters.First(x => x.UniqueId == favCharacter.CharacterId).ServerId;
-            }
-            if (newCharacters.Count > 0)
-            {
-                context.Echelons.Add(
-                    new()
-                    {
-                        AccountServerId = account.ServerId,
-                        EchelonNumber = 1,
-                        EchelonType = EchelonType.Adventure,
-                        LeaderServerId = newCharacters[0].ServerId,
-                        MainSlotServerIds = newCharacters
-                            .Take(3)
-                            .Select(x => x.ServerId)
-                            .Append(0)
-                            .ToList(),
-                        SupportSlotServerIds = [0, 0]
-                    }
-                );
             }
             context.SaveChanges();
 
