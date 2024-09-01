@@ -30,8 +30,10 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         [ProtocolHandler(Protocol.Item_AutoSynth)]
         public ResponsePacket AutoSynthHandler(ItemAutoSynthRequest req)
         {
+            var account = sessionKeyService.GetAccount(req.SessionKey);
             return new ItemAutoSynthResponse()
             {
+                ParcelResultDB = new()
             };
         }
     }
