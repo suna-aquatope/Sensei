@@ -6,6 +6,7 @@ using SCHALE.Common.NetworkProtocol;
 using SCHALE.GameServer.Managers;
 using SCHALE.GameServer.Services;
 using Microsoft.EntityFrameworkCore;
+using SCHALE.Common.Parcel;
 
 namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 {
@@ -38,8 +39,18 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
 
-            var schoolDungeonData = excelTableService.GetTable<SchoolDungeonStageExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
-            CurrencyUtils.ChangeCurrencies(ref account, schoolDungeonData.StageEnterCostId, Array.ConvertAll(schoolDungeonData.StageEnterCostAmount.ToArray(), Convert.ToInt32).ToList());
+            var schoolDungeonExcel = excelTableService.GetTable<SchoolDungeonStageExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
+            var currencyDict = account.Currencies.First();
+
+            List<long> costIdList = schoolDungeonExcel.StageEnterCostId;
+            List<long> costAmountList = schoolDungeonExcel.StageEnterCostAmount;
+            for (int i = 0; i < costIdList.Count; i++)
+            {
+                var targetCurrencyType = (CurrencyTypes)costIdList[i];
+                currencyDict.CurrencyDict[targetCurrencyType] -= costAmountList[i];
+                currencyDict.UpdateTimeDict[targetCurrencyType] = DateTime.Now;
+            }
+
             context.Entry(account.Currencies.First()).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
 
@@ -57,12 +68,18 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var currencies = account.Currencies.First();
-            var historyDb = new SchoolDungeonStageHistoryDB() { AccountServerId = req.AccountId, StageUniqueId = req.StageUniqueId };
-            var schoolDungeonData = excelTableService.GetTable<SchoolDungeonStageExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
+            var schoolDungeonExcel = excelTableService.GetTable<SchoolDungeonStageExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
+            SchoolDungeonStageHistoryDB historyDb = new();
+            ParcelResultDB parcelResultDb = new()
+            {
+                AccountCurrencyDB = currencies,
+                DisplaySequence = new()
+            };
 
             if (!req.Summary.IsAbort && req.Summary.EndType == Common.MX.Logic.Battles.BattleEndType.Clear)
             {
-                historyDb.StarFlags = ScoreService.CalculateScoreSchoolDungeon(req.Summary, schoolDungeonData.StarGoal, schoolDungeonData.StarGoalAmount).ToArray();
+                historyDb = SchoolDungeonService.CreateSchoolDungeonStageHistoryDB(req.AccountId, schoolDungeonExcel);
+                SchoolDungeonService.CalcStarGoals(schoolDungeonExcel, historyDb, req.Summary);
 
                 if (account.SchoolDungeonStageHistories.Any(x => x.StageUniqueId == req.StageUniqueId))
                 {
@@ -82,7 +99,26 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             else
             {
                 // Return currencies
-                CurrencyUtils.ChangeCurrencies(ref account, schoolDungeonData.StageEnterCostId, Array.ConvertAll(schoolDungeonData.StageEnterCostAmount.ToArray(), Convert.ToInt32).ToList(), true);
+                List<long> costIdList = schoolDungeonExcel.StageEnterCostId;
+                List<long> costAmountList = schoolDungeonExcel.StageEnterCostAmount;
+
+                var currencyDict = account.Currencies.First();
+                for (int i = 0; i < costIdList.Count; i++)
+                {
+                    var targetCurrencyType = (CurrencyTypes)costIdList[i];
+                    currencyDict.CurrencyDict[targetCurrencyType] += costAmountList[i];
+                    currencyDict.UpdateTimeDict[targetCurrencyType] = DateTime.Now;
+
+                    parcelResultDb.DisplaySequence.Add(new()
+                    {
+                        Amount = costAmountList[i],
+                        Key = new()
+                        {
+                            Type = ParcelType.Currency,
+                            Id = costIdList[i]
+                        }
+                    });
+                }
 
                 context.Entry(currencies).State = EntityState.Modified;
             }
@@ -93,10 +129,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             {
                 SchoolDungeonStageHistoryDB = historyDb,
                 LevelUpCharacterDBs = new(),
-                ParcelResultDB = new()
-                {
-                    AccountCurrencyDB = currencies,
-                },
+                ParcelResultDB = parcelResultDb
             };
         }
     }

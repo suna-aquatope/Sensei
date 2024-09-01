@@ -248,6 +248,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 }
             }
 
+            var consumedItems = new List<ItemDB>();
             var strategy = _context.Database.CreateExecutionStrategy();
 
             strategy.Execute(
@@ -290,7 +291,37 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                         }
 
                         // Consume currencies
-                        CurrencyUtils.ConsumeCurrencies(ref account, req.Cost.Currency);
+                        var currencyDict = account.Currencies.First().CurrencyDict;
+
+                        foreach (var cost in req.Cost.ParcelInfos)
+                        {
+                            switch(cost.Key.Type)
+                            {
+                                case ParcelType.Currency:
+                                    switch((CurrencyTypes)cost.Key.Id)
+                                    {
+                                        case CurrencyTypes.Gem:
+                                            currencyDict[CurrencyTypes.GemPaid] -= cost.Amount;
+
+                                            if (currencyDict[CurrencyTypes.GemPaid] < 0)
+                                            {
+                                                currencyDict[CurrencyTypes.GemBonus] += currencyDict[CurrencyTypes.GemPaid];
+                                                currencyDict[CurrencyTypes.GemPaid] = 0;
+                                            }
+                                            break;
+
+                                        default:
+                                            currencyDict[(CurrencyTypes)cost.Key.Id] -= cost.Amount;
+                                            break;
+                                    }
+                                    break;
+
+                                case ParcelType.Item:
+                                    account.Items.Where(x => x.UniqueId == cost.Key.Id).First().StackCount -= cost.Amount;
+                                    consumedItems.Add(account.Items.Where(x => x.UniqueId == cost.Key.Id).First());
+                                    break;
+                            }
+                        }
                         _context.Entry(account.Currencies.First()).State = EntityState.Modified;
 
                         _context.SaveChanges();
@@ -323,7 +354,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 UpdateTime = DateTime.UtcNow,
                 GemBonusRemain = account.Currencies.First().CurrencyDict[CurrencyTypes.GemBonus],
                 GemPaidRemain = account.Currencies.First().CurrencyDict[CurrencyTypes.GemPaid],
-                ConsumedItems = [],
+                ConsumedItems = consumedItems,
                 AcquiredItems = itemDbList,
                 MissionProgressDBs = [],
             };
