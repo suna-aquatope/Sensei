@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Google.FlatBuffers;
 using Ionic.Zip;
+using MemoryPack;
 using SCHALE.Common.Crypto;
+using SCHALE.Common.Database;
 using SCHALE.GameServer.Utils;
 using Serilog;
 
@@ -17,50 +19,66 @@ namespace SCHALE.GameServer.Services
     {
         private readonly ILogger<ExcelTableService> logger = _logger;
         private readonly Dictionary<Type, object> caches = [];
+        public static string resourceDir = Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "Resources");
 
-        public static async Task LoadExcels(string excelDirectory = "")
+        public static async Task LoadResources()
         {
-            var excelZipUrl = $"https://prod-clientpatch.bluearchiveyostar.com/{Config.Instance.VersionId}/TableBundles/Excel.zip";
-            var excelDbUrl = $"https://prod-clientpatch.bluearchiveyostar.com/{Config.Instance.VersionId}/TableBundles/ExcelDB.db";
-
-            var excelDir = string.IsNullOrWhiteSpace(excelDirectory) 
-                ? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "Resources/excel")
-                : excelDirectory;
-            var excelZipPath = Path.Combine(excelDir, "Excel.zip");
-            var excelDbPath = Path.Combine(excelDir, "ExcelDB.db");
-
-            if (Directory.Exists(excelDir))
+            if (Directory.Exists(resourceDir))
             {
-                Log.Information("Excels already downloaded, skipping...");
+                Log.Information("Resources already downloaded, skipping...");
                 return;
             }
-            
-            Directory.CreateDirectory(excelDir);
+
+            Log.Information("Downloading resources, this may take a while...");
+
+            Directory.CreateDirectory(resourceDir);
+
+            var baseUrl = $"https://prod-clientpatch.bluearchiveyostar.com/{Config.Instance.VersionId}/TableBundles/";
+            var tableCatalogName = "TableCatalog.bytes";
+            var tableCatalogUrl = baseUrl + tableCatalogName;
+            var tableCatalogPath = Path.Combine(resourceDir, tableCatalogName);
+
             using var client = new HttpClient();
+            // Download TableCatalog.bytes
+            Log.Information($"Downloading {tableCatalogName}...");
+            File.WriteAllBytes(tableCatalogPath, await client.GetByteArrayAsync(tableCatalogUrl));
 
-            // Download Excel.zip
-            Log.Information("Downloading Excel.zip...");
-            var zipBytes = await client.GetByteArrayAsync(excelZipUrl);
-            File.WriteAllBytes(excelZipPath, zipBytes);
+            // Load TableCatalog
+            var catalog = MemoryPackSerializer.Deserialize<TableCatalog>(File.ReadAllBytes(tableCatalogPath));
 
-            // Download ExcelDB.db
-            Log.Information("Downloading ExcelDB.db...");
-            var dbBytes = await client.GetByteArrayAsync(excelDbUrl);
-            File.WriteAllBytes(excelDbPath, dbBytes);
-
-            using (var zip = ZipFile.Read(excelZipPath)) {
-                zip.Password = Convert.ToBase64String(TableService.CreatePassword(Path.GetFileName(excelZipPath)));
-                zip.ExtractAll(excelDir, ExtractExistingFileAction.OverwriteSilently);
+            var downloadedFolderName = "downloaded";
+            var downloadedFolderPath = Path.Combine(resourceDir, downloadedFolderName);
+            if (!Directory.Exists(downloadedFolderPath))
+            {
+                Directory.CreateDirectory(downloadedFolderPath);
             }
 
-            File.Delete(excelZipPath);
-            Log.Information($"Excel Version {Config.Instance.VersionId} downloaded!");
+            foreach (var bundle in catalog.Table)
+            {
+                var downloadFileName = bundle.Value.Name;
+                var downloadUrl = baseUrl + downloadFileName;
+                var downloadFilePath = Path.Combine(downloadedFolderPath, bundle.Value.Name);
+                Log.Information($"Downloading {downloadFileName}...");
+                File.WriteAllBytes(downloadFilePath, await client.GetByteArrayAsync(downloadUrl));
 
-#if DEBUG
-            var dumpDir = Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "dumped");
-            Directory.CreateDirectory(dumpDir);
-            TableService.DumpExcels(excelDir, dumpDir);
-#endif
+                if(Path.GetExtension(downloadFilePath) == ".zip")
+                {
+                    Log.Information($"Extracting {downloadFileName}...");
+                    using (var zip = ZipFile.Read(downloadFilePath))
+                    {
+                        zip.Password = Convert.ToBase64String(TableService.CreatePassword(Path.GetFileName(downloadFilePath)));
+                        zip.ExtractAll(Path.Combine(resourceDir, Path.GetFileNameWithoutExtension(downloadFilePath)), ExtractExistingFileAction.OverwriteSilently);
+                    }
+                } else
+                {
+                    File.Move(downloadFilePath, Path.Combine(resourceDir, downloadFileName));
+                }
+            }
+
+            Log.Information($"Deleting {downloadedFolderName} folder...");
+            Directory.Delete(downloadedFolderPath, true);
+
+            Log.Information($"Resource Version {Config.Instance.VersionId} downloaded!");
         }
 
         /// <summary>
@@ -69,16 +87,14 @@ namespace SCHALE.GameServer.Services
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public T GetTable<T>(bool bypassCache = false, string excelDirectory = "") where T : IFlatbufferObject
+        public T GetTable<T>(bool bypassCache = false) where T : IFlatbufferObject
         {
             var type = typeof(T);
 
             if (!bypassCache && caches.TryGetValue(type, out var cache))
                 return (T)cache;
 
-            var excelDir = string.IsNullOrWhiteSpace(excelDirectory)
-                ? Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "Resources/excel")
-                : excelDirectory;
+            var excelDir = Path.Combine(resourceDir, "Excel");
             var bytesFilePath = Path.Join(excelDir, $"{type.Name.ToLower()}.bytes");
             if (!File.Exists(bytesFilePath))
             {
@@ -99,7 +115,7 @@ namespace SCHALE.GameServer.Services
         {
             var excelList = new List<T>();
             var type = typeof(T);
-            using (var dbConnection = new SQLiteConnection($"Data Source = {Path.Join(Path.GetDirectoryName(AppContext.BaseDirectory), "Resources/excel", "ExcelDB.db")}"))
+            using (var dbConnection = new SQLiteConnection($"Data Source = {Path.Join(resourceDir, "ExcelDB.db")}"))
             {
                 dbConnection.Open();
                 var command = dbConnection.CreateCommand();

@@ -67,7 +67,7 @@ namespace SCHALE.GameServer
                 Config.Load();
 
                 // Load Excels
-                await ExcelTableService.LoadExcels();
+                await ExcelTableService.LoadResources();
 
                 // Load Commands
                 CommandFactory.LoadCommands();
