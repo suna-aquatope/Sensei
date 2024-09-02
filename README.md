@@ -10,6 +10,12 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ---
 
+I make destructive changes so often that I recommend deleting the bin folder and
+
+deleting the account and starting over completely after updating the server code
+
+---
+
 ## Differences from original repo
 
 ### Fixed Features
@@ -22,7 +28,7 @@ The reason for this bug is that incorrect echelon data was added when the accoun
 
 Therefore, if you created your account before this fix was added, you will need to delete and recreate your account or delete the incorrect data
 
-The incorrect data should be at the very beginning
+The incorrect data should be at the very beginning of echelon table
 
 ---
 
