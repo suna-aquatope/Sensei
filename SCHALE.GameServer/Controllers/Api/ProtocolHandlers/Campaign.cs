@@ -56,7 +56,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         }
 
         [ProtocolHandler(Protocol.Campaign_EnterSubStage)]
-        public ResponsePacket EnterSubStage(CampaignEnterSubStageRequest req)
+        public ResponsePacket EnterSubStageHandler(CampaignEnterSubStageRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var campaignExcel = excelTableService.GetTable<CampaignStageExcelTable>().UnPack().DataList.Where(x => x.Id == req.StageUniqueId).ToList().First();
@@ -84,7 +84,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         }
 
         [ProtocolHandler(Protocol.Campaign_SubStageResult)]
-        public ResponsePacket SubStageResult(CampaignSubStageResultRequest req)
+        public ResponsePacket SubStageResultHandler(CampaignSubStageResultRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var currencies = account.Currencies.First();
@@ -157,32 +157,8 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             };
         }
 
-        [ProtocolHandler(Protocol.Campaign_EnterMainStageStrategySkip)]
-        public ResponsePacket EnterMainStageStrategySkip(CampaignEnterMainStageStrategySkipRequest req)
-        {
-            var account = sessionKeyService.GetAccount(req.SessionKey);
-            var campaignExcel = excelTableService.GetTable<CampaignStageExcelTable>().UnPack().DataList.Where(x => x.Id == req.StageUniqueId).ToList().First();
-
-            var costId = campaignExcel.StageEnterCostId;
-            var costAmount = campaignExcel.StageEnterCostAmount;
-            var currency = account.Currencies.First();
-            currency.CurrencyDict[(CurrencyTypes)costId] -= costAmount;
-            currency.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
-
-            context.Entry(currency).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
-
-            return new CampaignEnterMainStageStrategySkipResponse()
-            {
-                ParcelResultDB = new()
-                {
-                    AccountCurrencyDB = currency,
-                }
-            };
-        }
-
         [ProtocolHandler(Protocol.Campaign_EnterTutorialStage)]
-        public ResponsePacket EnterTutorialStage(CampaignEnterTutorialStageRequest req)
+        public ResponsePacket EnterTutorialStageHandler(CampaignEnterTutorialStageRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var campaignExcel = excelTableService.GetTable<CampaignStageExcelTable>().UnPack().DataList.Where(x => x.Id == req.StageUniqueId).ToList().First();
@@ -210,7 +186,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         }
 
         [ProtocolHandler(Protocol.Campaign_TutorialStageResult)]
-        public ResponsePacket TutorialStageResult(CampaignTutorialStageResultRequest req)
+        public ResponsePacket TutorialStageResultHandler(CampaignTutorialStageResultRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var campaignExcel = excelTableService.GetTable<CampaignChapterExcelTable>().UnPack().DataList
@@ -234,8 +210,32 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             };
         }
 
+        [ProtocolHandler(Protocol.Campaign_EnterMainStageStrategySkip)]
+        public ResponsePacket EnterMainStageStrategySkipHandler(CampaignEnterMainStageStrategySkipRequest req)
+        {
+            var account = sessionKeyService.GetAccount(req.SessionKey);
+            var campaignExcel = excelTableService.GetTable<CampaignStageExcelTable>().UnPack().DataList.Where(x => x.Id == req.StageUniqueId).ToList().First();
+
+            var costId = campaignExcel.StageEnterCostId;
+            var costAmount = campaignExcel.StageEnterCostAmount;
+            var currency = account.Currencies.First();
+            currency.CurrencyDict[(CurrencyTypes)costId] -= costAmount;
+            currency.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
+
+            context.Entry(currency).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+
+            return new CampaignEnterMainStageStrategySkipResponse()
+            {
+                ParcelResultDB = new()
+                {
+                    AccountCurrencyDB = currency,
+                }
+            };
+        }
+
         [ProtocolHandler(Protocol.Campaign_MainStageStrategySkipResult)]
-        public ResponsePacket MainStageStrategySkipResult(CampaignMainStageStrategySkipResultRequest req)
+        public ResponsePacket MainStageStrategySkipResultHandler(CampaignMainStageStrategySkipResultRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var currencies = account.Currencies.First();
