@@ -68,8 +68,6 @@ If you built the server before this support was added, please delete the bin fol
 
 ![image](https://github.com/user-attachments/assets/661aa5a0-1ae7-4d7b-bf81-9a30fd026f93)
 
-Mostly working, playing stage, unlocking next stage, partial score calculating (except all student are alive star)
-
 ---
 
 - Currencies
@@ -99,3 +97,5 @@ As you can see, you can enter cafe, but it is broken
 ## Special Thanks
 
 - K0lb3 - Author of Flatbuffer schema generator
+
+- suna-aquatope - Made me realize how to do Json deserialization of GroupSummary
