@@ -51,14 +51,14 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 currencyDict.UpdateTimeDict[targetCurrencyType] = DateTime.Now;
             }
 
-            context.Entry(account.Currencies.First()).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(currencyDict).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
 
             return new SchoolDungeonEnterBattleResponse()
             {
                 ParcelResultDB = new()
                 {
-                    AccountCurrencyDB = account.Currencies.First(),
+                    AccountCurrencyDB = currencyDict,
                 }
             };
         }
