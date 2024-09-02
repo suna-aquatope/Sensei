@@ -24,79 +24,33 @@ public class CampaignService
     }
 
     // Original Implementation
-    // What a shitty codes
-    public static void CalcStrategySkipStarGoals(CampaignStageHistoryDB historyDB, BattleSummary summary) {
-        for (int i = 0; i < 3; i++)
+    public static void CalcStrategySkipStarGoals(CampaignStageHistoryDB historyDB, BattleSummary summary)
+    {
+        // All enemies are defeated
+        var alivedEnemy = 0;
+        foreach (var enemy in summary.Group02Summary.Heroes)
         {
-            var endChecking = false;
-            switch (i)
+            if (enemy.DeadFrame == -1)
             {
-                case 0: // All enemies are defeated
-                    foreach (var enemy in summary.Group02Summary.Heroes)
-                    {
-                        if(enemy.DeadFrame == -1)
-                        {
-                            endChecking = true;
-                        }
-
-                        if(endChecking)
-                        {
-                            break;
-                        }
-                    }
-
-                    if (endChecking)
-                    {
-                        break;
-                    }
-
-                    historyDB.Star1Flag = true;
-                    break;
-
-                case 1: // All enemies are defeated in 120 seconds
-                    foreach (var enemy in summary.Group02Summary.Heroes)
-                    {
-                        if (enemy.DeadFrame == -1)
-                        {
-                            endChecking = true;
-                        }
-
-                        if (endChecking)
-                        {
-                            break;
-                        }
-                    }
-
-                    if (endChecking)
-                    {
-                        break;
-                    }
-
-                    historyDB.Star2Flag = summary.EndFrame <= 120 * 30;
-                    break;
-
-                case 2: // No one is defeated
-                    foreach (var hero in summary.Group01Summary.Heroes)
-                    {
-                        if (hero.DeadFrame != -1)
-                        {
-                            endChecking = true;
-                        }
-
-                        if (endChecking)
-                        {
-                            break;
-                        }
-                    }
-
-                    if (endChecking)
-                    {
-                        break;
-                    }
-
-                    historyDB.Star3Flag = true;
-                    break;
+                alivedEnemy++;
             }
         }
+
+        historyDB.Star1Flag = alivedEnemy == 0;
+
+        // All enemies are defeated in 120 seconds
+        historyDB.Star2Flag = summary.Group02Summary.Heroes.Last().DeadFrame <= 120 * 30;
+
+        // No one is defeated
+        var deadHero = 0;
+        foreach (var hero in summary.Group01Summary.Heroes)
+        {
+            if (hero.DeadFrame != -1)
+            {
+                deadHero++;
+            }
+        }
+
+        historyDB.Star3Flag = deadHero == 0;
     }
 }
