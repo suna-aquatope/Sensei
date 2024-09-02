@@ -12,7 +12,37 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ## Differences from original repo
 
-### Implemented features
+### Fixed Features
+
+- Working formation screen
+
+![image](https://github.com/user-attachments/assets/33c98ed2-8124-4e28-9842-00fe3eb69872)
+
+The reason for this bug is that incorrect echelon data was added when the account was created
+
+Therefore, if you created your account before this fix was added, you will need to delete and recreate your account or delete the incorrect data
+
+The incorrect data should be at the very beginning
+
+---
+
+### Implemented Features
+
+- Campaign (Currently strategy skip mode only)
+
+![image](https://github.com/user-attachments/assets/18feabe9-3013-4bfc-9ddf-d14bb6b6cbbe)
+
+![image](https://github.com/user-attachments/assets/4f446aea-30a9-4ddf-aa51-daf930a5cb28)
+
+![image](https://github.com/user-attachments/assets/6e91eafa-00dc-41c9-a418-ad2d32cdc386)
+
+---
+
+- Unlock All Command
+
+`/unlockall campaign` to unlock all of stages of campaign
+
+---
 
 - Support for loading excel of latest version of game
 
