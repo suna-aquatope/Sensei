@@ -28,6 +28,7 @@ namespace SCHALE.Common.Database
         public DbSet<CafeDB> Cafes { get; set; }
         public DbSet<WeekDungeonStageHistoryDB> WeekDungeonStageHistories { get; set; }
         public DbSet<SchoolDungeonStageHistoryDB> SchoolDungeonStageHistories { get; set; }
+        public DbSet<CampaignStageHistoryDB> CampaignStageHistories { get; set; }
 
         public static SCHALEContext Create(string connectionString) =>
             new(new DbContextOptionsBuilder<SCHALEContext>()
@@ -114,6 +115,11 @@ namespace SCHALE.Common.Database
                 .WithOne(x => x.Account)
                 .HasForeignKey(x => x.AccountServerId)
                 .IsRequired();
+            modelBuilder.Entity<AccountDB>()
+                .HasMany(x => x.CampaignStageHistories)
+                .WithOne(x => x.Account)
+                .HasForeignKey(x => x.AccountServerId)
+                .IsRequired();
 
             modelBuilder.Entity<AccountDB>(x => x.Property(b => b.RaidInfo).HasJsonConversion());
             modelBuilder.Entity<ItemDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
@@ -151,6 +157,8 @@ namespace SCHALE.Common.Database
             modelBuilder.Entity<SchoolDungeonStageHistoryDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
 
             modelBuilder.Entity<ScenarioGroupHistoryDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<CampaignStageHistoryDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
         }
     }
 

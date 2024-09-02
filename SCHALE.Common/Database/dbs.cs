@@ -106,9 +106,9 @@ namespace SCHALE.Common.Database
 
         public int EndFrame { get; set; }
 
-        //public GroupSummary Group01Summary { get; set; }
+        public GroupSummary Group01Summary { get; set; }
 
-        //public GroupSummary Group02Summary { get; set; }
+        public GroupSummary Group02Summary { get; set; }
 
         public WeekDungeonSummary WeekDungeonSummary { get; set; }
 
@@ -133,6 +133,10 @@ namespace SCHALE.Common.Database
         public long FixedEchelonId { get; set; }
 
         public bool IsAbort { get; set; }
+
+        public bool IsDefeatBattle { get; set; }
+        [JsonIgnore]
+        public bool IsDefeatFailure { get; }
 
         public bool Equals(BattleSummary? other)
         {
@@ -375,6 +379,8 @@ namespace SCHALE.Common.Database
 
         [JsonIgnore]
         public virtual ICollection<SchoolDungeonStageHistoryDB> SchoolDungeonStageHistories { get; }
+        [JsonIgnore]
+        public virtual ICollection<CampaignStageHistoryDB> CampaignStageHistories { get; }
 
         [JsonIgnore]
         public virtual RaidInfo RaidInfo { get; set; }
@@ -395,6 +401,7 @@ namespace SCHALE.Common.Database
             Cafes = new List<CafeDB>();
             WeekDungeonStageHistories = new List<WeekDungeonStageHistoryDB>();
             SchoolDungeonStageHistories = new List<SchoolDungeonStageHistoryDB>();
+            CampaignStageHistories = new List<CampaignStageHistoryDB>();
         }
 
         public AccountDB(long publisherAccountId) : this()
@@ -736,7 +743,14 @@ namespace SCHALE.Common.Database
 
     public class CampaignStageHistoryDB
     {
+        [JsonIgnore]
+        public virtual AccountDB Account { get; set; }
+
+        [JsonIgnore]
         public long AccountServerId { get; set; }
+
+        [Key]
+        public long ServerId { get; set; }
         public long StoryUniqueId { get; set; }
         public long ChapterUniqueId { get; set; }
         public long StageUniqueId { get; set; }
