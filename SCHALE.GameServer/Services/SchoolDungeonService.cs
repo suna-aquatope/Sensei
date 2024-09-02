@@ -36,6 +36,14 @@ public class SchoolDungeonService
                 break;
 
             case StarGoalType.AllAlive:
+                foreach (var hero in battleSummary.Group01Summary.Heroes)
+                {
+                    if (hero.DeadFrame != -1)
+                    {
+                        return false;
+                    }
+                }
+
                 result = true;
                 break;
 

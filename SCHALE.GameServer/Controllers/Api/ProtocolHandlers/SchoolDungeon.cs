@@ -102,12 +102,11 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 List<long> costIdList = schoolDungeonExcel.StageEnterCostId;
                 List<long> costAmountList = schoolDungeonExcel.StageEnterCostAmount;
 
-                var currencyDict = account.Currencies.First();
                 for (int i = 0; i < costIdList.Count; i++)
                 {
                     var targetCurrencyType = (CurrencyTypes)costIdList[i];
-                    currencyDict.CurrencyDict[targetCurrencyType] += costAmountList[i];
-                    currencyDict.UpdateTimeDict[targetCurrencyType] = DateTime.Now;
+                    currencies.CurrencyDict[targetCurrencyType] += costAmountList[i];
+                    currencies.UpdateTimeDict[targetCurrencyType] = DateTime.Now;
 
                     parcelResultDb.DisplaySequence.Add(new()
                     {

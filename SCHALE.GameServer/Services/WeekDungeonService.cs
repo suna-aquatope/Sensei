@@ -48,16 +48,20 @@ public class WeekDungeonService
     }
 
     public static long CalcAllAlive(BattleSummary battleSummary) {
-        return 1;
+        var allAlive = 1;
+        foreach(var hero in battleSummary.Group01Summary.Heroes)
+        {
+            if(hero.DeadFrame != -1)
+            {
+                allAlive = 0;
+                break;
+            }
+        }
+
+        return allAlive;
     }
 
     public static long CalcGetBoxes(WeekDungeonType dungeonType, BattleSummary battleSummary) {
         return battleSummary.WeekDungeonSummary.FindGifts.First().ClearCount;
-    }
-
-    // Not used?
-    public static bool TryGetStageCostAmount(long stageId, CurrencyTypes currencyTypes, out long amount) {
-        amount = 0;
-        return false;
     }
 }
