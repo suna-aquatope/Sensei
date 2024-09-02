@@ -10,9 +10,9 @@ usage is in [README](https://github.com/Endergreen12/SCHALE.GameServer/blob/mast
 
 ---
 
-I make destructive changes so often that I recommend deleting the bin folder and
+I make destructive changes so often that I recommend deleting the bin folder
 
-deleting the account and starting over completely after updating the server code
+and deleting the account and starting over completely after updating the server code
 
 ---
 
