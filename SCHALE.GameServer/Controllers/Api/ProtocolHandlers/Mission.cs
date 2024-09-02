@@ -19,7 +19,12 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         [ProtocolHandler(Protocol.Mission_Sync)]
         public ResponsePacket SyncHandler(MissionSyncRequest req)
         {
-            return new MissionSyncResponse();
+            var account = sessionKeyService.GetAccount(req.SessionKey);
+
+            return new MissionSyncResponse()
+            {
+                MissionProgressDBs = account.MissionProgresses.ToList()
+            };
         }
 
         [ProtocolHandler(Protocol.Mission_List)]
