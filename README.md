@@ -20,6 +20,8 @@ and deleting the account and starting over completely after updating the server 
 
 ### Fixed Features
 
+- Fixed DockerFile
+
 - Working formation screen
 
 ![image](https://github.com/user-attachments/assets/33c98ed2-8124-4e28-9842-00fe3eb69872)
