@@ -2570,7 +2570,9 @@ namespace SCHALE.Common.Database
 
     public class SkillLevelBatchGrowthRequestDB
     {
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public SkillSlot SkillSlot { get; set; }
+
         public int Level { get; set; }
         public List<SelectTicketReplaceInfo> ReplaceInfos { get; set; }
     }

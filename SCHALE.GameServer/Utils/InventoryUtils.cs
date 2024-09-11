@@ -11,7 +11,7 @@ namespace SCHALE.Common.Utils
 {
     public static class InventoryUtils
     {
-        public static void AddAllCharacters(IrcConnection connection)
+        public static void AddAllCharacters(IrcConnection connection, bool maxStat = true)
         {
             var account = connection.Account;
             var context = connection.Context;
@@ -25,7 +25,10 @@ namespace SCHALE.Common.Utils
                     IsNPC: false,
                     ProductionStep: ProductionStep.Release,
                 }
-            ).Select(x => CreateMaxCharacterFromId(x.Id)).ToList();
+            ).Select(x => {
+                if(maxStat) return CreateMaxCharacterFromId(x.Id);
+                return CreateCharacterFromId(characterExcel, x.Id);
+            }).ToList();
 
             account.AddCharacters(context, [.. allCharacters]);
             context.SaveChanges();
@@ -61,7 +64,7 @@ namespace SCHALE.Common.Utils
                 {
                     IsNew = true,
                     UniqueId = x.Id,
-                    StackCount = 1000,
+                    StackCount = 9999,
                 };
             }).ToList();
 
@@ -170,6 +173,27 @@ namespace SCHALE.Common.Utils
             connection.SendChatMessage("Removed all characters!");
         }
 
+        public static CharacterDB CreateCharacterFromId(List<CharacterExcelT> characterExcel, long characterId)
+        {
+            var characterData = characterExcel.Find(x => x.Id == characterId);
+            return new CharacterDB()
+            {
+                UniqueId = characterId,
+                StarGrade = characterData.DefaultStarGrade,
+                Level = 1,
+                Exp = 0,
+                PublicSkillLevel = 1,
+                ExSkillLevel = 1,
+                PassiveSkillLevel = 1,
+                ExtraPassiveSkillLevel = 1,
+                LeaderSkillLevel = 1,
+                FavorRank = characterData.FavorLevelupType,
+                IsNew = true,
+                IsLocked = true,
+                PotentialStats = { { 1, 0 }, { 2, 0 }, { 3, 0 } },
+                EquipmentServerIds = [0, 0, 0]
+            };
+        }
         public static CharacterDB CreateMaxCharacterFromId(long characterId)
         {
             return new CharacterDB()

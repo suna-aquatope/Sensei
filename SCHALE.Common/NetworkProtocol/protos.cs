@@ -2450,11 +2450,15 @@ namespace SCHALE.Common.NetworkProtocol
         {
             get
             {
-                return NetworkProtocol.Protocol.None;
+                return NetworkProtocol.Protocol.Character_UpdateSkillLevel;
             }
         }
         public long TargetCharacterDBId { get; set; }
-        //public SkillSlot SkillSlot { get; set; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SkillSlot SkillSlot { get; set; }
+        
+
         public int Level { get; set; }
         public List<SelectTicketReplaceInfo> ReplaceInfos { get; set; }
     }
@@ -2840,7 +2844,7 @@ namespace SCHALE.Common.NetworkProtocol
         {
             get
             {
-                return NetworkProtocol.Protocol.Character_BatchSkillLevelUpdate;
+                return NetworkProtocol.Protocol.Character_UpdateSkillLevel;
             }
         }
         public CharacterDB CharacterDB { get; set; }
