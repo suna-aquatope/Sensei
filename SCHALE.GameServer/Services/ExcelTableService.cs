@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Google.FlatBuffers;
 using Ionic.Zip;
-using MemoryPack;
 using SCHALE.Common.Crypto;
 using SCHALE.Common.Database;
 using SCHALE.GameServer.Utils;
