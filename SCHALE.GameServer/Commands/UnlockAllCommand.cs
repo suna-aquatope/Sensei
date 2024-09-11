@@ -11,16 +11,17 @@ namespace SCHALE.GameServer.Commands
     {
         public UnlockAllCommand(IrcConnection connection, string[] args, bool validate = true) : base(connection, args, validate) { }
 
-        [Argument(0, @"", "Target content name", ArgumentFlags.IgnoreCase)]
+        [Argument(0, @"", "Target content name (campaign, weekdungeon, schooldungeon)", ArgumentFlags.IgnoreCase)]
         public string target { get; set; } = string.Empty;
 
         public override void Execute()
         {
+            var account = connection.Account;
+
             switch (target)
             {
                 case "campaign":
                     var campaignChapterExcel = connection.ExcelTableService.GetTable<CampaignChapterExcelTable>().UnPack().DataList;
-                    var account = connection.Account;
 
                     foreach (var excel in campaignChapterExcel)
                     {
@@ -45,6 +46,56 @@ namespace SCHALE.GameServer.Commands
 
                     connection.Context.SaveChanges();
                     connection.SendChatMessage("Unlocked all of stages of campaign!");
+                    break;
+
+                case "weekdungeon":
+                    var weekdungeonExcel = connection.ExcelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList;
+
+                    foreach (var excel in weekdungeonExcel)
+                    {
+                        var starGoalRecord = new Dictionary<StarGoalType, long>();
+                        
+                        if(excel.StarGoal[0] == StarGoalType.GetBoxes)
+                        {
+                            starGoalRecord.Add(StarGoalType.GetBoxes, excel.StarGoalAmount.Last());
+                        } else {
+                            foreach(var goalType in excel.StarGoal)
+                            {
+                                starGoalRecord.Add(goalType, 1);
+                            }
+                        }
+
+                        account.WeekDungeonStageHistories.Add(new() {
+                            AccountServerId = account.ServerId,
+                            StageUniqueId = excel.StageId,
+                            StarGoalRecord = starGoalRecord
+                        });
+                    }
+
+                    connection.Context.SaveChanges();
+                    connection.SendChatMessage("Unlocked all of stages of week dungeon!");
+                    break;
+
+                case "schooldungeon":
+                    var schooldungeonExcel = connection.ExcelTableService.GetTable<SchoolDungeonStageExcelTable>().UnPack().DataList;
+
+                    foreach (var excel in schooldungeonExcel)
+                    {
+                        var starFlags = new bool[excel.StarGoal.Count];
+                        for(int i = 0; i < excel.StarGoal.Count; i++)
+                        {
+                            starFlags[i] = true;
+                        }
+
+                        account.SchoolDungeonStageHistories.Add(new() {
+                            AccountServerId = account.ServerId,
+                            StageUniqueId = excel.StageId,
+                            StarFlags = starFlags
+                        });
+                    }
+
+                    connection.Context.SaveChanges();
+                    connection.SendChatMessage("Unlocked all of stages of school dungeon!");
                     break;
             }
         }
