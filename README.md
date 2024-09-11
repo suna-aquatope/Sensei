@@ -50,6 +50,10 @@ The incorrect data should be at the very beginning of echelon table
 
 `/unlockall campaign` to unlock all of stages of campaign
 
+`/unlockall weekdungeon` to unlock all of stages of week dungeon
+
+`/unlockall schooldungeon` to unlock all of stages of school dungeon
+
 ---
 
 - Support for loading excel of latest version of game
