@@ -39,12 +39,7 @@ namespace SCHALE.GameServer.Services
             var tableCatalogPath = Path.Combine(resourceDir, tableCatalogName);
 
             using var client = new HttpClient();
-            // Download TableCatalog.bytes
-            Log.Information($"Downloading {tableCatalogName}...");
-            File.WriteAllBytes(tableCatalogPath, await client.GetByteArrayAsync(tableCatalogUrl));
-
-            // Load TableCatalog
-            var catalog = MemoryPackSerializer.Deserialize<TableCatalog>(File.ReadAllBytes(tableCatalogPath));
+            var downloadList = new List<string>() { "ExcelDB.db", "Excel.zip" };
 
             var downloadedFolderName = "downloaded";
             var downloadedFolderPath = Path.Combine(resourceDir, downloadedFolderName);
@@ -53,11 +48,11 @@ namespace SCHALE.GameServer.Services
                 Directory.CreateDirectory(downloadedFolderPath);
             }
 
-            foreach (var bundle in catalog.Table)
+            foreach (var bundle in downloadList)
             {
-                var downloadFileName = bundle.Value.Name;
+                var downloadFileName = bundle;
                 var downloadUrl = baseUrl + downloadFileName;
-                var downloadFilePath = Path.Combine(downloadedFolderPath, bundle.Value.Name);
+                var downloadFilePath = Path.Combine(downloadedFolderPath, downloadFileName);
                 Log.Information($"Downloading {downloadFileName}...");
                 File.WriteAllBytes(downloadFilePath, await client.GetByteArrayAsync(downloadUrl));
 
