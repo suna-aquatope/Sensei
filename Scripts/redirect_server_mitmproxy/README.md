@@ -8,6 +8,8 @@ Download the installer from [mitmproxy.org](https://mitmproxy.org/)
 
 Follow the instructions from [System CA on Android Emulator](https://docs.mitmproxy.org/stable/howto-install-system-trusted-ca-android/)
 
+For Android 14, you can use this repo: https://github.com/pwnlogs/cert-fixer
+
 ## Hook client with mitmproxy
 
 Set your server address and port in `redirect_server.py`
