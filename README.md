@@ -106,6 +106,12 @@ currencyId can be found at [SCHALE.Common/FlatData/CurrencyTypes.cs](https://git
 
 As you can see, you can enter cafe, but it is broken
 
+## Contributors
+
+<a href="https://github.com/Endergreen12/SCHALE.GameServer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Endergreen12/SCHALE.GameServer" />
+</a>
+
 ## Special Thanks
 
 - K0lb3 - Author of Flatbuffer schema generator
