@@ -40,18 +40,19 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         public ResponsePacket EndBattleHandler(MultiFloorRaidEndBattleRequest req)
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
-            MultiFloorRaidDB db = new();
+            MultiFloorRaidDB db = new() { SeasonId = req.SeasonId };
 
-            if (!req.Summary.IsAbort)
+            if (!req.Summary.IsAbort && req.Summary.EndType == Common.MX.Logic.Battles.BattleEndType.Clear)
             {
-                if (account.MultiFloorRaids.Any(x => x.ClearedDifficulty == req.Difficulty))
+                if (account.MultiFloorRaids.Any(x => x.AccountServerId == req.AccountId))
                 {
-                    db = account.MultiFloorRaids.Where(x => x.ClearedDifficulty == req.Difficulty).First();
+                    db = account.MultiFloorRaids.Where(x => x.AccountServerId == req.AccountId).First();
                 }
                 else
                 {
                     account.MultiFloorRaids.Add(db);
                 }
+
                 db.SeasonId = req.SeasonId;
                 db.ClearedDifficulty = req.Difficulty;
                 db.LastClearDate = DateTime.Now;
@@ -62,6 +63,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 db.HasReceivableRewards = false;
                 db.TotalReceivedRewards = new();
                 db.TotalReceivableRewards = new();
+
                 context.SaveChanges();
             }
 
