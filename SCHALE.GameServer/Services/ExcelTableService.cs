@@ -22,10 +22,18 @@ namespace SCHALE.GameServer.Services
 
         public static async Task LoadResources()
         {
+            var versionTxtPath = Path.Combine(resourceDir, "version.txt");
+
             if (Directory.Exists(resourceDir))
             {
-                Log.Information("Resources already downloaded, skipping...");
-                return;
+                if(File.Exists(versionTxtPath) && File.ReadAllText(versionTxtPath) == Config.Instance.VersionId)
+                {
+                    Log.Information("Resources already downloaded, skipping...");
+                    return;
+                } else {
+                    Directory.Delete(resourceDir, true);
+                    Log.Information("The version of the resource is different from that of the server and the resource will be downloaded again");
+                }
             }
 
             Log.Information("Downloading resources, this may take a while...");
@@ -71,6 +79,8 @@ namespace SCHALE.GameServer.Services
 
             Log.Information($"Deleting {downloadedFolderName} folder...");
             Directory.Delete(downloadedFolderPath, true);
+
+            File.WriteAllText(versionTxtPath, Config.Instance.VersionId);
 
             Log.Information($"Resource Version {Config.Instance.VersionId} downloaded!");
         }
