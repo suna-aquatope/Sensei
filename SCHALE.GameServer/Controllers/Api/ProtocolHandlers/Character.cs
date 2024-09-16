@@ -4,6 +4,7 @@ using SCHALE.Common.FlatData;
 using SCHALE.Common.NetworkProtocol;
 using SCHALE.Common.Parcel;
 using SCHALE.GameServer.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 {
@@ -165,6 +166,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 {
                     addExp += req.ConsumeRequestDB.ConsumeItemServerIdAndCounts.ElementAt(i).Value * data.exp;
                     accountCurrency.CurrencyDict[CurrencyTypes.Gold] -= req.ConsumeRequestDB.ConsumeItemServerIdAndCounts.ElementAt(i).Value * data.gold;
+                    accountCurrency.UpdateTimeDict[CurrencyTypes.Gold] = DateTime.Now;
                     item.StackCount -= req.ConsumeRequestDB.ConsumeItemServerIdAndCounts.ElementAt(i).Value;
                     consumeResult.UsedItemServerIdAndRemainingCounts.Add(item.ServerId, item.StackCount);
                 }
@@ -188,7 +190,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                     break;
                 }
             }
-            
+            context.Entry(accountCurrency).State = EntityState.Modified;
             context.SaveChanges();
             
             return new CharacterExpGrowthResponse()
@@ -205,6 +207,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             var account = sessionKeyService.GetAccount(req.SessionKey);
             var targetCharacter = account.Characters.FirstOrDefault(x => x.ServerId == req.TargetCharacterServerId);
             var item = account.Items.FirstOrDefault(x => x.AccountServerId == req.SessionKey.AccountServerId && x.UniqueId == targetCharacter.UniqueId);
+            var currency = account.Currencies.First();
 
             var itemNeeded = targetCharacter.StarGrade switch
             {
@@ -215,8 +218,20 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 _ => 0
             };
 
+            var currencyNeeded = targetCharacter.StarGrade switch
+            {
+                1 => 10000,
+                2 => 40000,
+                3 => 200000,
+                4 => 1000000,
+                _ => 0
+            };
+
             targetCharacter.StarGrade++;
             item.StackCount -= itemNeeded;
+            currency.CurrencyDict[CurrencyTypes.Gold] -= currencyNeeded;
+            currency.UpdateTimeDict[CurrencyTypes.Gold] = DateTime.Now;
+            context.Entry(currency).State = EntityState.Modified;
             context.SaveChanges();
 
             return new CharacterTranscendenceResponse()
@@ -224,6 +239,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 CharacterDB = targetCharacter,
                 ParcelResultDB = new()
                 {
+                    AccountCurrencyDB = currency,
                     ItemDBs = new Dictionary<long, ItemDB> { { item.UniqueId, item } }
                 }
             };
@@ -276,9 +292,9 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                     if (data.weaponType.Contains(charWeaponType) || data.weaponType.Contains(WeaponType.None)) addExp += req.ConsumeUniqueIdAndCounts.ElementAt(i).Value * data.expBonus;
                     else addExp += req.ConsumeUniqueIdAndCounts.ElementAt(i).Value * data.exp;
                     accountCurrency.CurrencyDict[CurrencyTypes.Gold] -= req.ConsumeUniqueIdAndCounts.ElementAt(i).Value * data.gold;
+                    accountCurrency.UpdateTimeDict[CurrencyTypes.Gold] = DateTime.Now;
                     eq.StackCount -= req.ConsumeUniqueIdAndCounts.ElementAt(i).Value;
                     equipmentData.Add(eq.UniqueId, eq);
-                    Console.WriteLine(addExp);
                 }
             }
 
@@ -287,7 +303,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
             foreach(var data in levelTable)
             {
-                if (previousExp > data.TotalExp && weapon.Level < levelTable.Count) weapon.Level++;
+                if (previousExp > data.TotalExp && weapon.Level < 50) weapon.Level++;
                 else if (previousExp == data.TotalExp)
                 {
                     weapon.Level = data.Level;
@@ -300,6 +316,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                     break;
                 }
             }
+            context.Entry(accountCurrency).State = EntityState.Modified;
             context.SaveChanges();
 
             return new CharacterWeaponExpGrowthResponse()
@@ -320,7 +337,8 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             var targetCharacter = account.Characters.FirstOrDefault(x => x.ServerId == req.TargetCharacterServerId);
             var weapon = account.Weapons.FirstOrDefault(x => x.AccountServerId == req.SessionKey.AccountServerId && x.UniqueId == targetCharacter.UniqueId);
             var item = account.Items.FirstOrDefault(x => x.AccountServerId == req.SessionKey.AccountServerId && x.UniqueId == targetCharacter.UniqueId);
-            
+            var currency = account.Currencies.First();
+
             var itemNeeded = weapon.StarGrade switch
             {
                 1 => 120,
@@ -328,8 +346,18 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 _ => 0
             };
 
+            var currencyNeeded = weapon.StarGrade switch
+            {
+                1 => 1000000,
+                2 => 1500000,
+                _ => 0
+            };
+
             weapon.StarGrade++;
             item.StackCount -= itemNeeded;
+            currency.CurrencyDict[CurrencyTypes.Gold] -= currencyNeeded;
+            currency.UpdateTimeDict[CurrencyTypes.Gold] = DateTime.Now;
+            context.Entry(currency).State = EntityState.Modified;
             context.SaveChanges();
 
             return new CharacterWeaponTranscendenceResponse()

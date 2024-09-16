@@ -11,12 +11,15 @@ namespace SCHALE.Common.Utils
 {
     public static class InventoryUtils
     {
-        public static void AddAllCharacters(IrcConnection connection, bool maxStat = true)
+        public static void AddAllCharacters(IrcConnection connection, bool maxed = true)
         {
             var account = connection.Account;
             var context = connection.Context;
 
             var characterExcel = connection.ExcelTableService.GetTable<CharacterExcelTable>().UnPack().DataList;
+            var characterLevelExcel = connection.ExcelTableService.GetTable<CharacterLevelExcelTable>().UnPack().DataList;
+            var favorLevelExcel = connection.ExcelTableService.GetTable<FavorLevelExcelTable>().UnPack().DataList;
+
             var allCharacters = characterExcel.Where(x =>
                 x is
                 {
@@ -26,8 +29,23 @@ namespace SCHALE.Common.Utils
                     ProductionStep: ProductionStep.Release,
                 }
             ).Select(x => {
-                if(maxStat) return CreateMaxCharacterFromId(x.Id);
-                return CreateCharacterFromId(characterExcel, x.Id);
+                return new CharacterDB()
+                {
+                    UniqueId = x.Id,
+                    StarGrade = maxed ? x.MaxStarGrade : x.DefaultStarGrade,
+                    Level = maxed ? characterLevelExcel.Count : 1,
+                    Exp = 0,
+                    PublicSkillLevel = maxed ? 10 : 1,
+                    ExSkillLevel = maxed ? 5 : 1,
+                    PassiveSkillLevel = maxed ? 10 : 1,
+                    ExtraPassiveSkillLevel = maxed ? 10 : 1,
+                    LeaderSkillLevel = 1,
+                    FavorRank = maxed ? favorLevelExcel.Count : 1,
+                    IsNew = true,
+                    IsLocked = true,
+                    PotentialStats = { { 1, 0 }, { 2, 0 }, { 3, 0 } },
+                    EquipmentServerIds = [0, 0, 0]
+                };
             }).ToList();
 
             account.AddCharacters(context, [.. allCharacters]);
@@ -36,21 +54,47 @@ namespace SCHALE.Common.Utils
             connection.SendChatMessage("Added all characters!");
         }
 
-        public static void AddAllEquipment(IrcConnection connection)
+        public static void AddAllEquipment(IrcConnection connection/*, bool maxed = true*/)
         {
             var equipmentExcel = connection.ExcelTableService.GetTable<EquipmentExcelTable>().UnPack().DataList;
+
             var allEquipment = equipmentExcel.Select(x =>
             {
                 return new EquipmentDB()
                 {
                     UniqueId = x.Id,
                     Level = 1,
-                    StackCount = 77777, // ~ 90,000 cap, auto converted if over
+                    StackCount = x.StackableMax, // ~ 90,000 cap, auto converted if over
                 };
             }).ToList();
 
             connection.Account.AddEquipment(connection.Context, [.. allEquipment]);
             connection.Context.SaveChanges();
+
+            // current implementation doesn't work
+            /*var characterExcel = connection.ExcelTableService.GetTable<CharacterExcelTable>().UnPack().DataList;
+            var allCharacterEquipment = characterExcel.FindAll(x => connection.Account.Characters.Any(y => y.UniqueId == x.Id)).ToList();
+            foreach (var characterEquipmentData in allCharacterEquipment)
+            {
+                var characterEquipment = characterEquipmentData.EquipmentSlot.Select(x =>
+                {
+                    var equipmentData = equipmentExcel.FirstOrDefault(y => y.EquipmentCategory == x && y.MaxLevel == 65 && y.RecipeId == 0 && y.TierInit == 9);
+                    return new EquipmentDB()
+                    {
+                        UniqueId = equipmentData.Id,
+                        Level = maxed ? equipmentData.MaxLevel : 0,
+                        Tier = maxed ? (int)equipmentData.TierInit : 1,
+                        StackCount = 1,
+                        BoundCharacterServerId = connection.Account.Characters.FirstOrDefault(y => y.UniqueId == characterEquipmentData.Id).ServerId
+                    };
+                });
+                connection.Account.AddEquipment(connection.Context, [.. characterEquipment]);
+                connection.Context.SaveChanges();
+                connection.Account.Characters.FirstOrDefault(x => x.UniqueId == characterEquipmentData.Id).EquipmentServerIds.Clear();
+                connection.Account.Characters.FirstOrDefault(x => x.UniqueId == characterEquipmentData.Id).EquipmentServerIds.AddRange(characterEquipment.Select(x => x.ServerId));
+            }
+            connection.Context.SaveChanges();
+            */
 
             connection.SendChatMessage("Added all equipment!");
         }
@@ -64,7 +108,7 @@ namespace SCHALE.Common.Utils
                 {
                     IsNew = true,
                     UniqueId = x.Id,
-                    StackCount = 9999,
+                    StackCount = x.StackableMax
                 };
             }).ToList();
 
@@ -74,11 +118,12 @@ namespace SCHALE.Common.Utils
             connection.SendChatMessage("Added all items!");
         }
 
-        public static void AddAllWeapons(IrcConnection connection)
+        public static void AddAllWeapons(IrcConnection connection, bool maxed = true)
         {
             var account = connection.Account;
             var context = connection.Context;
 
+            var weaponExcel = connection.ExcelTableService.GetTable<CharacterWeaponExcelTable>().UnPack().DataList;
             // only for current characters
             var allWeapons = account.Characters.Select(x =>
             {
@@ -86,9 +131,9 @@ namespace SCHALE.Common.Utils
                 {
                     UniqueId = x.UniqueId,
                     BoundCharacterServerId = x.ServerId,
-                    IsLocked = false,
-                    StarGrade = 3,
-                    Level = 50
+                    IsLocked = !maxed,
+                    StarGrade = maxed ? weaponExcel.FirstOrDefault(y => y.Id == x.UniqueId).Unlock.TakeWhile(y => y).Count() : 1,
+                    Level = maxed ? 50 : 1
                 };
             });
 
@@ -98,24 +143,25 @@ namespace SCHALE.Common.Utils
             connection.SendChatMessage("Added all weapons!");
         }
 
-        public static void AddAllGears(IrcConnection connection)
+        public static void AddAllGears(IrcConnection connection, bool maxed = true)
         {
             var account = connection.Account;
             var context = connection.Context;
 
-            var gearExcel = connection.ExcelTableService.GetTable<CharacterGearExcelTable>().UnPack().DataList;
+            if(!maxed) return;
+            var uniqueGearExcel = connection.ExcelTableService.GetTable<CharacterGearExcelTable>().UnPack().DataList;
 
-            var allGears = gearExcel.Where(x => x.Tier == 2 && context.Characters.Any(y => y.UniqueId == x.CharacterId)).Select(x => new GearDB()
+            var uniqueGear = uniqueGearExcel.Where(x => x.Tier == 2 && context.Characters.Any(y => y.UniqueId == x.CharacterId)).Select(x => new GearDB()
             {
                 UniqueId = x.Id,
                 Level = 1,
                 SlotIndex = 4,
                 BoundCharacterServerId = context.Characters.FirstOrDefault(z => z.UniqueId == x.CharacterId).ServerId,
-                Tier = 2,
+                Tier = maxed ? 2 : 1,
                 Exp = 0,
             });
 
-            account.AddGears(context, [.. allGears]);
+            account.AddGears(context, [.. uniqueGear]);
             context.SaveChanges();
 
             connection.SendChatMessage("Added all gears!");
@@ -173,28 +219,7 @@ namespace SCHALE.Common.Utils
             connection.SendChatMessage("Removed all characters!");
         }
 
-        public static CharacterDB CreateCharacterFromId(List<CharacterExcelT> characterExcel, long characterId)
-        {
-            var characterData = characterExcel.Find(x => x.Id == characterId);
-            return new CharacterDB()
-            {
-                UniqueId = characterId,
-                StarGrade = characterData.DefaultStarGrade,
-                Level = 1,
-                Exp = 0,
-                PublicSkillLevel = 1,
-                ExSkillLevel = 1,
-                PassiveSkillLevel = 1,
-                ExtraPassiveSkillLevel = 1,
-                LeaderSkillLevel = 1,
-                FavorRank = characterData.FavorLevelupType,
-                IsNew = true,
-                IsLocked = true,
-                PotentialStats = { { 1, 0 }, { 2, 0 }, { 3, 0 } },
-                EquipmentServerIds = [0, 0, 0]
-            };
-        }
-        public static CharacterDB CreateMaxCharacterFromId(long characterId)
+        public static CharacterDB CreateMaxCharacterFromId(uint characterId)
         {
             return new CharacterDB()
             {
@@ -207,7 +232,7 @@ namespace SCHALE.Common.Utils
                 PassiveSkillLevel = 10,
                 ExtraPassiveSkillLevel = 10,
                 LeaderSkillLevel = 1,
-                FavorRank = 20,
+                FavorRank = 100,
                 IsNew = true,
                 IsLocked = true,
                 PotentialStats = { { 1, 0 }, { 2, 0 }, { 3, 0 } },
