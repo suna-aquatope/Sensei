@@ -17,6 +17,7 @@ namespace SCHALE.Common.Utils
             var context = connection.Context;
 
             var characterExcel = connection.ExcelTableService.GetTable<CharacterExcelTable>().UnPack().DataList;
+            var defaultCharacterExcel = connection.ExcelTableService.GetTable<DefaultCharacterExcelTable>().UnPack().DataList;
             var characterLevelExcel = connection.ExcelTableService.GetTable<CharacterLevelExcelTable>().UnPack().DataList;
             var favorLevelExcel = connection.ExcelTableService.GetTable<FavorLevelExcelTable>().UnPack().DataList;
 
@@ -28,7 +29,9 @@ namespace SCHALE.Common.Utils
                     IsNPC: false,
                     ProductionStep: ProductionStep.Release,
                 }
-            ).Select(x => {
+            )
+            .Where(x => !account.Characters.Any(y => y.UniqueId == x.Id))
+            .Select(x => {
                 return new CharacterDB()
                 {
                     UniqueId = x.Id,
@@ -48,13 +51,29 @@ namespace SCHALE.Common.Utils
                 };
             }).ToList();
 
+            foreach (var character in account.Characters.Where(x => characterExcel.Any(y => y.Id == x.UniqueId)))
+            {
+                var updateCharacter = character;
+                updateCharacter.StarGrade = maxed ? characterExcel.FirstOrDefault(y => y.Id == character.UniqueId).MaxStarGrade : characterExcel.FirstOrDefault(y => y.Id == character.UniqueId).DefaultStarGrade;
+                updateCharacter.PublicSkillLevel = maxed ? 10 : 1;
+                updateCharacter.ExSkillLevel = maxed ? 5 : 1;
+                updateCharacter.PassiveSkillLevel = maxed ? 10 : 1;
+                updateCharacter.ExtraPassiveSkillLevel = maxed ? 10 : 1;
+                updateCharacter.Level = maxed ? characterLevelExcel.Count : 1;
+                updateCharacter.Exp = 0;
+                updateCharacter.FavorRank = maxed ? favorLevelExcel.Count : 1;
+                updateCharacter.PotentialStats = new Dictionary<int, int> { { 1, 0 }, { 2, 0 }, { 3, 0 } };
+                updateCharacter.EquipmentServerIds = [0, 0, 0];
+                connection.Context.Characters.Update(updateCharacter);
+            }
+
             account.AddCharacters(context, [.. allCharacters]);
             context.SaveChanges();
 
             connection.SendChatMessage("Added all characters!");
         }
 
-        public static void AddAllEquipment(IrcConnection connection/*, bool maxed = true*/)
+        public static void AddAllEquipment(IrcConnection connection, bool maxed = true)
         {
             var equipmentExcel = connection.ExcelTableService.GetTable<EquipmentExcelTable>().UnPack().DataList;
 
@@ -71,7 +90,7 @@ namespace SCHALE.Common.Utils
             connection.Account.AddEquipment(connection.Context, [.. allEquipment]);
             connection.Context.SaveChanges();
 
-            // current implementation doesn't work
+            // current character equipment implementation doesn't work
             /*var characterExcel = connection.ExcelTableService.GetTable<CharacterExcelTable>().UnPack().DataList;
             var allCharacterEquipment = characterExcel.FindAll(x => connection.Account.Characters.Any(y => y.UniqueId == x.Id)).ToList();
             foreach (var characterEquipmentData in allCharacterEquipment)
@@ -148,18 +167,19 @@ namespace SCHALE.Common.Utils
             var account = connection.Account;
             var context = connection.Context;
 
-            if(!maxed) return;
             var uniqueGearExcel = connection.ExcelTableService.GetTable<CharacterGearExcelTable>().UnPack().DataList;
 
-            var uniqueGear = uniqueGearExcel.Where(x => x.Tier == 2 && context.Characters.Any(y => y.UniqueId == x.CharacterId)).Select(x => new GearDB()
-            {
-                UniqueId = x.Id,
-                Level = 1,
-                SlotIndex = 4,
-                BoundCharacterServerId = context.Characters.FirstOrDefault(z => z.UniqueId == x.CharacterId).ServerId,
-                Tier = maxed ? 2 : 1,
-                Exp = 0,
-            });
+            var uniqueGear = uniqueGearExcel.Where(x => x.Tier == 2 && context.Characters.Any(y => y.UniqueId == x.CharacterId)).Select(x => 
+                new GearDB()
+                {
+                    UniqueId = x.Id,
+                    Level = 1,
+                    SlotIndex = 4,
+                    BoundCharacterServerId = context.Characters.FirstOrDefault(z => z.UniqueId == x.CharacterId).ServerId,
+                    Tier = maxed ? 2 : 1,
+                    Exp = 0,
+                }
+            );
 
             account.AddGears(context, [.. uniqueGear]);
             context.SaveChanges();
@@ -210,11 +230,27 @@ namespace SCHALE.Common.Utils
         public static void RemoveAllCharacters(IrcConnection connection) // removing default characters breaks game
         {
             var characterDB = connection.Context.Characters;
-            var defaultCharacters = connection.ExcelTableService.GetTable<DefaultCharacterExcelTable>().UnPack().DataList.Select(x => x.CharacterId).ToList();
+            var characterExcel = connection.ExcelTableService.GetTable<CharacterExcelTable>().UnPack().DataList;
+            var defaultCharacterExcel = connection.ExcelTableService.GetTable<DefaultCharacterExcelTable>().UnPack().DataList;
 
-            var removed = characterDB.Where(x => x.AccountServerId == connection.AccountServerId && !defaultCharacters.Contains(x.UniqueId));
+            var removed = characterDB.Where(x => x.AccountServerId == connection.AccountServerId && !defaultCharacterExcel.Select(x => x.CharacterId).ToList().Contains(x.UniqueId));
 
             characterDB.RemoveRange(removed);
+            foreach (var character in connection.Account.Characters.Where(x => defaultCharacterExcel.Any(y => y.CharacterId == x.UniqueId)))
+            {
+                var defaultChar = character;
+                defaultChar.StarGrade = characterExcel.FirstOrDefault(x => x.Id == character.UniqueId).DefaultStarGrade;
+                defaultChar.PublicSkillLevel = 1;
+                defaultChar.ExSkillLevel = 1;
+                defaultChar.PassiveSkillLevel = 1;
+                defaultChar.ExtraPassiveSkillLevel = 1;
+                defaultChar.Level = 1;
+                defaultChar.Exp = 0;
+                defaultChar.FavorRank = 1;
+                defaultChar.PotentialStats = new Dictionary<int, int> { { 1, 0 }, { 2, 0 }, { 3, 0 } };
+                defaultChar.EquipmentServerIds = [0, 0, 0];
+                connection.Context.Characters.Update(defaultChar);
+            }
 
             connection.SendChatMessage("Removed all characters!");
         }
