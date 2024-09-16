@@ -22,10 +22,10 @@ namespace SCHALE.GameServer.Commands
             {
                 case "addall":
                     InventoryUtils.AddAllCharacters(connection, false);
-                    InventoryUtils.AddAllWeapons(connection);
+                    InventoryUtils.AddAllWeapons(connection, false);
                     InventoryUtils.AddAllEquipment(connection);
                     InventoryUtils.AddAllItems(connection);
-                    InventoryUtils.AddAllGears(connection);
+                    InventoryUtils.AddAllGears(connection, false);
                     InventoryUtils.AddAllMemoryLobbies(connection);
                     InventoryUtils.AddAllScenarios(connection);
 
