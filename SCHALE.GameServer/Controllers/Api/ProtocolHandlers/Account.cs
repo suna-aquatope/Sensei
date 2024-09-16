@@ -306,6 +306,17 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new AccountNicknameResponse() { AccountDB = account };
         }
 
+        [ProtocolHandler(Protocol.Account_CallName)]
+        public ResponsePacket CallNameHandler(AccountCallNameRequest req)
+        {
+            var account = sessionKeyService.GetAccount(req.SessionKey);
+
+            account.CallName = req.CallName;
+            context.SaveChanges();
+
+            return new AccountCallNameResponse() { AccountDB = account };
+        }
+
         [ProtocolHandler(Protocol.Account_LoginSync)]
         public ResponsePacket LoginSyncHandler(AccountLoginSyncRequest req)
         {
