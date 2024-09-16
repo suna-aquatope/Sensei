@@ -17,7 +17,7 @@ Set your server address and port in `redirect_server.py`
 Install [WireGuard](https://wireguard.com/install/#android-play-store-f-droid) on client, then run mitmproxy:
 
 ```
-mitmweb -m wireguard -s redirect_server.py --ignore [Your IP address]
+mitmweb -m wireguard --no-http2 -s redirect_server.py --set termlog_verbosity=warn --ignore [Your IP address]
 ```
 
 Thanks to https://github.com/DennouNeko, discoverer of a way to make the club's chat available
