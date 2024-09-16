@@ -97,6 +97,9 @@ namespace SCHALE.GameServer.Commands
                     connection.Context.SaveChanges();
                     connection.SendChatMessage("Unlocked all of stages of school dungeon!");
                     break;
+
+                default:
+                    throw new ArgumentException("Invalid target!");
             }
         }
     }
