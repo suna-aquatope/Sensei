@@ -539,6 +539,10 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new FriendGetIdCardResponse();
         }
 
-        
+        [ProtocolHandler(Protocol.Account_InvalidateToken)]
+        public ResponsePacket InvalidateTokenHandler(AccountInvalidateTokenRequest req)
+        {
+            return new AccountInvalidateTokenResponse();
+        }
     }
 }

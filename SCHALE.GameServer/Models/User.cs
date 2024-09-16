@@ -53,4 +53,19 @@ namespace SCHALE.GameServer.Models
         [JsonPropertyName("isNew")]
         public int IsNew { get; set; }
     }
+
+    class UserDestroyResponse : BaseResponse
+    {
+        [JsonPropertyName("current_timestamp_ms")]
+        public long CurrentTimestampMs { get; set; }
+
+        [JsonPropertyName("has_cool_days")]
+        public bool HasCoolDays { get; set; }
+
+        [JsonPropertyName("reborn_before_ms")]
+        public long RebornBeforeMs { get; set; }
+
+        [JsonPropertyName("user_destroy_wait_days")]
+        public int UserDestroyWaitDays { get; set; }
+    }
 }

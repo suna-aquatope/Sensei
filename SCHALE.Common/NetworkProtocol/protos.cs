@@ -492,7 +492,7 @@ namespace SCHALE.Common.NetworkProtocol
         {
             get
             {
-                return NetworkProtocol.Protocol.None;
+                return NetworkProtocol.Protocol.Account_InvalidateToken;
             }
         }
     }

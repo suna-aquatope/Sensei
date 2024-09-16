@@ -72,5 +72,21 @@ namespace SCHALE.GameServer.Controllers
                 result = 1
             });
         }
+
+        [HttpPost("destroy")]
+        public IResult Destroy([FromForm] uint uid, [FromForm] string token)
+        {
+            var account = context.GuestAccounts.SingleOrDefault(x => x.Uid == uid && x.Token == token);
+            context.Entry(account).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            context.SaveChanges();
+
+            return Results.Json(new UserDestroyResponse()
+            {
+                CurrentTimestampMs = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+                HasCoolDays = false,
+                RebornBeforeMs = DateTimeOffset.Now.ToUnixTimeMilliseconds(), // idk whats this, in dumped data, this value is lower than CurrentTimestampMs
+                UserDestroyWaitDays = 0
+            });
+        }
     }
 }
