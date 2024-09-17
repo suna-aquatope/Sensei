@@ -29,7 +29,7 @@ namespace SCHALE.Common.Database
         public DbSet<WeekDungeonStageHistoryDB> WeekDungeonStageHistories { get; set; }
         public DbSet<SchoolDungeonStageHistoryDB> SchoolDungeonStageHistories { get; set; }
         public DbSet<CampaignStageHistoryDB> CampaignStageHistories { get; set; }
-		public DbSet<MailDB> Mails { get; set; }
+	public DbSet<MailDB> Mails { get; set; }
 
         public static SCHALEContext Create(string connectionString) =>
             new(new DbContextOptionsBuilder<SCHALEContext>()
@@ -161,7 +161,7 @@ namespace SCHALE.Common.Database
 
             modelBuilder.Entity<CampaignStageHistoryDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
 			
-			modelBuilder.Entity<MailDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
+	    modelBuilder.Entity<MailDB>().Property(x => x.ServerId).ValueGeneratedOnAdd();
         }
     }
 

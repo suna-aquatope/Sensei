@@ -289,8 +289,8 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             }
             context.SaveChanges();
 			
-			account.Mails.Add(Mail.CreateMail(req.AccountId));
-			context.SaveChanges();
+	    account.Mails.Add(Mail.CreateMail(req.AccountId));
+	    context.SaveChanges();
 
             return new AccountCreateResponse()
             {
