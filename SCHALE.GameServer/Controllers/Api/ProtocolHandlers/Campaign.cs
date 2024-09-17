@@ -67,7 +67,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             currency.CurrencyDict[(CurrencyTypes)costId] -= costAmount;
             currency.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
 
-            context.Entry(currency).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(currency).State = EntityState.Modified;
             context.SaveChanges();
 
             return new CampaignEnterSubStageResponse()
@@ -114,7 +114,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
                     existHistory.LastPlay = DateTime.Now;
 
-                    context.Entry(existHistory).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    context.Entry(existHistory).State = EntityState.Modified;
 
                     historyDb = existHistory;
                 }
@@ -131,7 +131,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 currencies.CurrencyDict[(CurrencyTypes)costId] += costAmount;
                 currencies.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
 
-                context.Entry(currencies).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.Entry(currencies).State = EntityState.Modified;
 
                 parcelResultDb.DisplaySequence.Add(new()
                 {
@@ -169,7 +169,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             currency.CurrencyDict[(CurrencyTypes)costId] -= costAmount;
             currency.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
 
-            context.Entry(currency).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(currency).State = EntityState.Modified;
             context.SaveChanges();
 
             return new CampaignEnterTutorialStageResponse()
@@ -222,7 +222,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             currency.CurrencyDict[(CurrencyTypes)costId] -= costAmount;
             currency.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
 
-            context.Entry(currency).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(currency).State = EntityState.Modified;
             context.SaveChanges();
 
             return new CampaignEnterMainStageStrategySkipResponse()
@@ -265,7 +265,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
 
                     existHistory.LastPlay = DateTime.Now;
 
-                    context.Entry(existHistory).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    context.Entry(existHistory).State = EntityState.Modified;
 
                     historyDb = existHistory;
                 }
@@ -281,7 +281,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 currencies.CurrencyDict[(CurrencyTypes)costId] += costAmount;
                 currencies.UpdateTimeDict[(CurrencyTypes)costId] = DateTime.Now;
 
-                context.Entry(currencies).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.Entry(currencies).State = EntityState.Modified;
 
                 parcelResultDb.DisplaySequence.Add(new()
                 {
