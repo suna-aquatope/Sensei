@@ -384,6 +384,9 @@ namespace SCHALE.Common.Database
 
         [JsonIgnore]
         public virtual RaidInfo RaidInfo { get; set; }
+		
+		[JsonIgnore]
+        public virtual ICollection<MailDB> Mails { get; }
 
         public AccountDB() { 
             Items = new List<ItemDB>();
@@ -402,6 +405,7 @@ namespace SCHALE.Common.Database
             WeekDungeonStageHistories = new List<WeekDungeonStageHistoryDB>();
             SchoolDungeonStageHistories = new List<SchoolDungeonStageHistoryDB>();
             CampaignStageHistories = new List<CampaignStageHistoryDB>();
+			Mails = new List<MailDB>();
         }
 
         public AccountDB(long publisherAccountId) : this()
@@ -1789,17 +1793,23 @@ namespace SCHALE.Common.Database
 
     public class MailDB
     {
-        public long ServerId { get; set; }
+        [JsonIgnore]
+        public virtual AccountDB Account { get; set; }
+		
+		[Key]
+		public long ServerId { get; set; }
+		[JsonIgnore]
         public long AccountServerId { get; set; }
-        public MailType Type { get; set; }
+		
+        public SCHALE.Common.FlatData.MailType Type { get; set; }
         public long UniqueId { get; set; }
         public string Sender { get; set; }
         public string Comment { get; set; }
         public DateTime SendDate { get; set; }
-        public DateTime? ReceiptDate { get; set; }
+        //public DateTime? ReceiptDate { get; set; }
         public DateTime? ExpireDate { get; set; }
-        public List<ParcelInfo> ParcelInfos { get; set; }
-        public List<ParcelInfo> RemainParcelInfos { get; set; }
+        //public List<ParcelInfo> ParcelInfos { get; set; }
+        //public List<ParcelInfo> RemainParcelInfos { get; set; }
     }
 
 
