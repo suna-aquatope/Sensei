@@ -33,8 +33,7 @@
 			"extensions": [
 				"ms-dotnettools.csharp",
 				"ms-mssql.mssql",
-				"ms-dotnettools.csdevkit",
-				"ms-dotnettools.vscodeintellicode-csharp"
+				"ms-dotnettools.csdevkit"
 			]
 		}
 	},
