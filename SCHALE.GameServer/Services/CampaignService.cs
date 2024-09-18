@@ -12,7 +12,7 @@ public class CampaignService
             StageUniqueId = stageInfo.UniqueId,
             ChapterUniqueId = stageInfo.ChapterUniqueId,
             TacticClearCountWithRankSRecord = 0,
-            ClearTurnRecord = 1,
+            ClearTurnRecord = 0,
             Star1Flag = false,
             Star2Flag = false,
             Star3Flag = false,
@@ -52,5 +52,7 @@ public class CampaignService
         }
 
         historyDB.Star3Flag = deadHero == 0;
+
+        historyDB.ClearTurnRecord = 1; // The game uses this value to determine if the stage has been cleared
     }
 }
