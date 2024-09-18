@@ -40,6 +40,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
         {
             var account = sessionKeyService.GetAccount(req.SessionKey);
 
+            // Consume currencies
             var weekDungeonExcel = excelTableService.GetTable<WeekDungeonExcelTable>().UnPack().DataList.Where(x => x.StageId == req.StageUniqueId).ToList().First();
             var currencyDict = account.Currencies.First();
 
@@ -52,7 +53,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 currencyDict.UpdateTimeDict[targetCurrencyType] = DateTime.Now;
             }
 
-            context.Entry(account.Currencies.First()).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.Entry(account.Currencies.First()).State = EntityState.Modified;
             context.SaveChanges();
 
             return new WeekDungeonEnterBattleResponse()
