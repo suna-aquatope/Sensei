@@ -45,7 +45,7 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                 AccountServerId = accountId,
                 Type = SCHALE.Common.FlatData.MailType.System,
                 UniqueId = 1,
-                Sender = "Plana",
+                Sender = "Arona",
                 Comment = "This is test, Sensei~",
                 SendDate = DateTime.Now,
                 ExpireDate = DateTime.MaxValue,
