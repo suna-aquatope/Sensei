@@ -288,9 +288,9 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
                     newCharacters.First(x => x.UniqueId == favCharacter.CharacterId).ServerId;
             }
             context.SaveChanges();
-			
-	    account.Mails.Add(Mail.CreateMail(req.AccountId));
-	    context.SaveChanges();
+            
+            account.Mails.Add(Mail.CreateMail(req.AccountId));
+            context.SaveChanges();
 
             return new AccountCreateResponse()
             {

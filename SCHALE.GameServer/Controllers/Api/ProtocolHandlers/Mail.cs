@@ -43,10 +43,10 @@ namespace SCHALE.GameServer.Controllers.Api.ProtocolHandlers
             return new()
             {
                 AccountServerId = accountId,
-		Type = SCHALE.Common.FlatData.MailType.System,
+                Type = SCHALE.Common.FlatData.MailType.System,
                 UniqueId = 1,
                 Sender = "Plana",
-		Comment = "This is test, Sensei~",
+                Comment = "This is test, Sensei~",
                 SendDate = DateTime.Now,
                 ExpireDate = DateTime.MaxValue,
             };

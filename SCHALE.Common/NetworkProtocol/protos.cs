@@ -6415,7 +6415,7 @@ namespace SCHALE.Common.NetworkProtocol
             }
         }
         public long AccountServerId { get; set; }
-	public bool IsReadMail { get; set; }
+        public bool IsReadMail { get; set; }
         public DateTime PivotTime { get; set; }
         public long PivotIndex { get; set; }
         public bool IsDescending { get; set; }
@@ -6695,7 +6695,7 @@ namespace SCHALE.Common.NetworkProtocol
             }
         }
         public MailDB MailDB { get; set; }
-	public List<MailDB> MailDBs { get; set; }
+        public List<MailDB> MailDBs { get; set; }
         public long Count { get; set; }
     }
 
